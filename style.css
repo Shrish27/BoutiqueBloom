@@ -1,0 +1,375 @@
+/* =========================================================
+   Local Business Marketing Support Platform - Global Styles
+   Design style: Atmospheric Boutique
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+:root {
+  /* Color palette */
+  --color-primary: #fda4af;
+  --color-secondary: #fff7ed;
+  --color-accent: #fb923c;
+  --color-text-dark: #451a03;
+  --color-surface: #ffffff;
+  --color-border: #fed7aa;
+
+  /* Typography */
+  --font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Open Sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* Radius */
+  --radius-card: 24px;
+  --radius-pill: 999px;
+  --radius-input: 14px;
+
+  /* Spacing */
+  --space-1: 0.5rem;
+  --space-2: 0.75rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
+
+  /* Effects */
+  --shadow-soft: 0 10px 30px rgba(69, 26, 3, 0.08);
+  --shadow-focus: 0 0 0 4px rgba(253, 164, 175, 0.25);
+
+  /* Layout */
+  --container-max: 1120px;
+  --transition-default: 220ms ease;
+}
+
+/* ------------------------
+   Reset / Base Defaults
+   ------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background: var(--color-secondary);
+  color: var(--color-text-dark);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+}
+
+/* ------------------------
+   Typography
+   ------------------------ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  color: var(--color-text-dark);
+  margin-bottom: var(--space-3);
+}
+
+h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+h2 {
+  font-size: clamp(1.625rem, 3.2vw, 2.4rem);
+}
+
+h3 {
+  font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+}
+
+p {
+  margin-bottom: var(--space-3);
+  max-width: 70ch;
+}
+
+small {
+  font-size: 0.875rem;
+}
+
+/* ------------------------
+   Layout Utilities
+   ------------------------ */
+.container {
+  width: min(100% - 2rem, var(--container-max));
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: var(--space-6);
+}
+
+/* ------------------------
+   Buttons (Pill Style)
+   ------------------------ */
+.btn {
+  --btn-bg: var(--color-primary);
+  --btn-color: var(--color-text-dark);
+  --btn-border: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.35rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  color: var(--btn-color);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--transition-default), box-shadow var(--transition-default),
+    background-color var(--transition-default), color var(--transition-default);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-soft);
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+.btn-primary {
+  --btn-bg: var(--color-primary);
+  --btn-color: var(--color-text-dark);
+}
+
+.btn-accent {
+  --btn-bg: var(--color-accent);
+  --btn-color: #fff;
+}
+
+.btn-outline {
+  --btn-bg: transparent;
+  --btn-color: var(--color-text-dark);
+  --btn-border: var(--color-primary);
+}
+
+/* ------------------------
+   Cards
+   ------------------------ */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-soft);
+}
+
+.card + .card {
+  margin-top: var(--space-4);
+}
+
+.card-title {
+  margin-bottom: var(--space-2);
+}
+
+.card-text:last-child {
+  margin-bottom: 0;
+}
+
+/* ------------------------
+   Forms
+   ------------------------ */
+.form-group {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: var(--space-3);
+}
+
+label {
+  font-weight: 600;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-input);
+  background-color: #fff;
+  color: var(--color-text-dark);
+  transition: border-color var(--transition-default), box-shadow var(--transition-default);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #9a6a52;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-focus);
+  outline: none;
+}
+
+textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+/* ------------------------
+   Navbar
+   ------------------------ */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 247, 237, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.navbar-inner {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.brand {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-links a {
+  padding: 0.45rem 0.8rem;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  transition: background-color var(--transition-default);
+}
+
+.nav-links a:hover,
+.nav-links a:focus-visible {
+  background-color: #ffe4e6;
+  outline: none;
+}
+
+/* ------------------------
+   Footer
+   ------------------------ */
+.footer {
+  margin-top: var(--space-6);
+  padding-block: var(--space-5);
+  background: #ffedd5;
+  border-top: 1px solid var(--color-border);
+}
+
+.footer-content {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: center;
+  text-align: center;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem 1.25rem;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+/* ------------------------
+   Responsive Basics
+   ------------------------ */
+@media (max-width: 900px) {
+  .section {
+    padding-block: var(--space-5);
+  }
+
+  .navbar-inner {
+    min-height: 64px;
+  }
+}
+
+@media (max-width: 700px) {
+  .container {
+    width: min(100% - 1.25rem, var(--container-max));
+  }
+
+  .navbar-inner {
+    flex-wrap: wrap;
+    padding-block: 0.75rem;
+  }
+
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .card {
+    padding: var(--space-3);
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

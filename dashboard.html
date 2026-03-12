@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BoutiqueBloom Dashboard</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="dashboard-page">
+    <header class="navbar">
+      <div class="container navbar-inner">
+        <a href="index.html" class="brand">BoutiqueBloom</a>
+
+        <nav aria-label="Top navigation" class="top-nav-actions">
+          <ul class="top-nav-list">
+            <li><a href="#" class="top-nav-link">Help Center</a></li>
+            <li><a href="#" class="top-nav-link">Notifications</a></li>
+            <li><a href="#" class="top-nav-link">Workspace</a></li>
+          </ul>
+        </nav>
+
+        <div class="profile-menu" aria-label="User profile controls">
+          <div class="avatar-placeholder" role="img" aria-label="Mira profile avatar">
+            M
+          </div>
+          <button class="btn" type="button">Profile</button>
+          <button class="btn btn-accent" type="button">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container dashboard-shell">
+      <aside class="sidebar" aria-label="Sidebar navigation">
+        <nav class="sidebar-nav">
+          <ul>
+            <li><a href="dashboard.html" class="sidebar-link is-active">Dashboard</a></li>
+            <li><a href="campaigns.html" class="sidebar-link">Campaigns</a></li>
+            <li><a href="content-planner.html" class="sidebar-link">Content Planner</a></li>
+            <li><a href="analytics.html" class="sidebar-link">Analytics</a></li>
+            <li><a href="brand-assets.html" class="sidebar-link">Brand Assets</a></li>
+            <li><a href="messages.html" class="sidebar-link">Messages</a></li>
+            <li><a href="settings.html" class="sidebar-link">Settings</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <section class="dashboard-main" aria-label="Dashboard overview">
+        <header class="dashboard-header section">
+          <h1>Good Evening, Mira</h1>
+          <p>Here’s how your brand is performing this week.</p>
+        </header>
+
+        <section class="stats-grid section" aria-label="Key summary statistics">
+          <article class="card stat-card">
+            <h2>Active Campaigns</h2>
+            <p class="stat-value">6</p>
+            <p class="stat-meta">2 launching this weekend</p>
+          </article>
+          <article class="card stat-card">
+            <h2>Scheduled Posts</h2>
+            <p class="stat-value">18</p>
+            <p class="stat-meta">Across Instagram, Facebook, and Pinterest</p>
+          </article>
+          <article class="card stat-card">
+            <h2>Weekly Reach</h2>
+            <p class="stat-value">42.7K</p>
+            <p class="stat-meta">Up 12% from last week</p>
+          </article>
+          <article class="card stat-card">
+            <h2>Brand Consistency</h2>
+            <p class="stat-value">94%</p>
+            <p class="stat-meta">Tone and visual alignment score</p>
+          </article>
+        </section>
+
+        <section class="content-grid section" aria-label="Detailed performance and planning">
+          <div class="content-primary">
+            <article class="card chart-card">
+              <header>
+                <h2>Campaign Performance</h2>
+              </header>
+              <div class="chart-placeholder" role="img" aria-label="Campaign performance trend chart">
+                <p>Performance chart area</p>
+              </div>
+              <p>
+                Your "Autumn Window Refresh" campaign is currently driving the highest
+                engagement, with saves increasing steadily over the past 5 days.
+              </p>
+            </article>
+
+            <article class="card calendar-card">
+              <header>
+                <h2>Upcoming Content Calendar</h2>
+              </header>
+              <ul class="calendar-list">
+                <li>
+                  <time datetime="2026-03-14T10:00">Mon, 10:00 AM</time>
+                  <p>Instagram Reel: "Behind the Scenes at Morning Setup"</p>
+                </li>
+                <li>
+                  <time datetime="2026-03-15T12:30">Tue, 12:30 PM</time>
+                  <p>Facebook Post: Spring Product Feature Carousel</p>
+                </li>
+                <li>
+                  <time datetime="2026-03-16T09:00">Wed, 9:00 AM</time>
+                  <p>Blog Draft Review: "5 Styling Ideas for Small Boutiques"</p>
+                </li>
+                <li>
+                  <time datetime="2026-03-17T15:00">Thu, 3:00 PM</time>
+                  <p>Pinterest Pins Batch Scheduled: New Arrivals Collection</p>
+                </li>
+              </ul>
+            </article>
+          </div>
+
+          <aside class="content-secondary" aria-label="Supporting insights and actions">
+            <article class="card">
+              <header>
+                <h2>Brand Voice Notes</h2>
+              </header>
+              <p>
+                Keep copy warm, conversational, and aspirational this week. Highlight
+                craftsmanship and local story-driven messaging.
+              </p>
+            </article>
+
+            <article class="card">
+              <header>
+                <h2>Recent Activity</h2>
+              </header>
+              <ul class="activity-list">
+                <li>Anna approved your Easter campaign visuals.</li>
+                <li>3 new customer messages flagged for response.</li>
+                <li>Logo pack v3 uploaded to Brand Assets.</li>
+                <li>Analytics report generated for March Week 2.</li>
+              </ul>
+            </article>
+
+            <article class="card quick-actions">
+              <header>
+                <h2>Quick Actions</h2>
+              </header>
+              <div class="quick-actions-buttons">
+                <button type="button" class="btn btn-primary">Create Campaign</button>
+                <button type="button" class="btn">Schedule Post</button>
+                <button type="button" class="btn btn-accent">Upload Brand Asset</button>
+              </div>
+            </article>
+          </aside>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>

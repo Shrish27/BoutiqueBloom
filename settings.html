@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BoutiqueBloom | Settings</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="settings-page">
+  <header class="navbar">
+    <div class="navbar-inner container">
+      <a href="index.html" class="brand" aria-label="BoutiqueBloom home">BoutiqueBloom</a>
+      <nav aria-label="Top utility links">
+        <ul class="profile-menu">
+          <li><a href="messages.html">Messages</a></li>
+          <li><a href="help-center.html">Help Center</a></li>
+          <li><a href="billing.html">Billing</a></li>
+          <li>
+            <a href="profile.html" class="avatar-placeholder" aria-label="Profile menu">S</a>
+          </li>
+          <li><a class="btn btn-accent" href="login.html">Logout</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container settings-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <nav class="sidebar-nav">
+        <a class="sidebar-link" href="dashboard.html">Dashboard</a>
+        <a class="sidebar-link" href="campaigns.html">Campaigns</a>
+        <a class="sidebar-link" href="planner.html">Content Planner</a>
+        <a class="sidebar-link" href="catalogue.html">Catalogue</a>
+        <a class="sidebar-link" href="coming-soon.html">Analytics</a>
+        <a class="sidebar-link" href="coming-soon.html">Brand Assets</a>
+        <a class="sidebar-link" href="coming-soon.html">Messages</a>
+        <a class="sidebar-link is-active" href="settings.html" aria-current="page">Settings</a>
+      </nav>
+    </aside>
+
+    <main class="settings-main" id="main-content">
+      <header class="settings-header">
+        <h1>Settings</h1>
+        <p>Manage your account, business profile, preferences, and notification settings.</p>
+      </header>
+
+      <form action="#" method="post">
+        <section class="settings-grid" aria-label="Settings sections">
+          <article class="card settings-card">
+            <h2>Profile Settings</h2>
+            <div class="form-row">
+              <label for="full-name">Full Name</label>
+              <input id="full-name" name="full_name" type="text" value="Sarah" autocomplete="name" />
+            </div>
+            <div class="form-row">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" value="SSSS@boutiquebloom.co" autocomplete="email" />
+            </div>
+            <div class="form-row">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" value="+91 98123 43210" autocomplete="tel" />
+            </div>
+          </article>
+
+          <article class="card settings-card">
+            <h2>Business Information</h2>
+            <div class="form-row">
+              <label for="business-name">Business Name</label>
+              <input id="business-name" name="business_name" type="text" value="Golden Hour Floral Studio" />
+            </div>
+            <div class="form-row">
+              <label for="business-category">Business Category</label>
+              <input id="business-category" name="business_category" type="text" value="Boutique Florist &amp; Gift Shop" />
+            </div>
+            <div class="form-row">
+              <label for="location">Location</label>
+              <input id="location" name="location" type="text" value="Ghatkopar, Mumbai" />
+            </div>
+            <div class="form-row">
+              <label for="website">Website</label>
+              <input id="website" name="website" type="url" value="https://goldenhourblooms.com" />
+            </div>
+          </article>
+
+          <article class="card settings-card">
+            <h2>Brand Preferences</h2>
+            <div class="form-row">
+              <label for="brand-tone">Brand Tone</label>
+              <input id="brand-tone" name="brand_tone" type="text" value="Warm, editorial, and aspirational" />
+            </div>
+            <div class="form-row">
+              <label for="primary-color">Primary Color</label>
+              <input id="primary-color" name="primary_color" type="text" value="#FDA4AF" />
+            </div>
+            <div class="form-row">
+              <label for="platforms">Preferred Platforms</label>
+              <input id="platforms" name="preferred_platforms" type="text" value="Instagram, Pinterest, Google Business" />
+            </div>
+          </article>
+
+          <article class="card settings-card">
+            <h2>Notification Preferences</h2>
+            <fieldset class="checkbox-group">
+              <legend>Choose which updates you want to receive</legend>
+              <div class="form-row">
+                <label>
+                  <input type="checkbox" name="email_updates" checked />
+                  Email updates
+                </label>
+              </div>
+              <div class="form-row">
+                <label>
+                  <input type="checkbox" name="campaign_reminders" checked />
+                  Campaign reminders
+                </label>
+              </div>
+              <div class="form-row">
+                <label>
+                  <input type="checkbox" name="weekly_digest" />
+                  Weekly performance digest
+                </label>
+              </div>
+            </fieldset>
+          </article>
+
+          <article class="card settings-card">
+            <h2>Security</h2>
+            <div class="form-row">
+              <label for="new-password">Change Password</label>
+              <input id="new-password" name="new_password" type="password" value="" autocomplete="new-password" placeholder="Enter new password" />
+            </div>
+            <div class="form-row">
+              <label for="confirm-password">Confirm Password</label>
+              <input id="confirm-password" name="confirm_password" type="password" value="" autocomplete="new-password" placeholder="Re-enter password" />
+            </div>
+          </article>
+        </section>
+
+        <div class="settings-actions">
+          <a class="btn btn-accent" href="dashboard.html">Save Changes</a>
+        </div>
+      </form>
+    </main>
+  </div>
+</body>
+</html>

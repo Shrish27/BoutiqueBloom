@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BoutiqueBloom | Module</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="coming-page">
+
+<header class="navbar">
+  <div class="container navbar-inner">
+    <a href="dashboard.html" class="brand">BoutiqueBloom</a>
+
+    <div class="profile-menu">
+      <a href="dashboard.html" class="btn">Dashboard</a>
+      <a href="login.html" class="btn btn-accent">Logout</a>
+    </div>
+  </div>
+</header>
+
+<main class="section">
+  <div class="container coming-wrapper">
+
+    <div class="card coming-card">
+
+      <h1 id="module-title">Coming Soon</h1>
+
+      <p>
+        This section of BoutiqueBloom is currently under development.
+        It will soon provide powerful tools to help manage your brand and marketing workflows.
+      </p>
+
+      <div class="coming-actions">
+        <a href="dashboard.html" class="btn btn-primary">Back to Dashboard</a>
+        <a href="planner.html" class="btn">Open Content Planner</a>
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const module = params.get("module");
+
+const title = document.getElementById("module-title");
+
+if(module){
+  const formatted =
+    module.replace("-", " ")
+          .replace(/\b\w/g, l => l.toUpperCase());
+
+  title.textContent = formatted;
+}
+</script>
+
+</body>
+</html>

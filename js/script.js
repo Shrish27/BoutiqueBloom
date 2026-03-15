@@ -441,3 +441,69 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+/* ==========================
+   Page Loading Animation
+========================== */
+
+window.addEventListener("load", () => {
+  const loader = document.getElementById("page-loader");
+
+  if (loader) {
+    setTimeout(() => {
+      loader.classList.add("hidden");
+    }, 300);
+  }
+});
+
+/* show loader when navigating */
+
+document.querySelectorAll("a[href]").forEach(link => {
+  const href = link.getAttribute("href");
+
+  if (
+    href &&
+    !href.startsWith("#") &&
+    !href.startsWith("mailto") &&
+    !href.startsWith("tel")
+  ) {
+    link.addEventListener("click", () => {
+      const loader = document.getElementById("page-loader");
+      if (loader) {
+        loader.classList.remove("hidden");
+      }
+    });
+  }
+});
+/* ==========================
+   Dashboard Counter Animation
+========================== */
+
+function animateCounters() {
+  const counters = document.querySelectorAll(".stat-value[data-target]");
+
+  counters.forEach(counter => {
+    const target = parseInt(counter.dataset.target);
+    let current = 0;
+
+    const increment = target / 60;
+
+    const updateCounter = () => {
+      current += increment;
+
+      if (current < target) {
+        counter.textContent = Math.floor(current);
+        requestAnimationFrame(updateCounter);
+      } else {
+        counter.textContent = target;
+      }
+    };
+
+    updateCounter();
+  });
+}
+
+window.addEventListener("load", () => {
+  if (document.querySelector(".stat-value")) {
+    animateCounters();
+  }
+});

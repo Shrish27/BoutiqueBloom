@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BoutiqueBloom | Sign Up</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="auth-page">
+    <header class="navbar">
+      <div class="container navbar-inner">
+        <a href="index.html" class="brand">BoutiqueBloom</a>
+        <nav aria-label="Primary">
+          <a href="#features">Features</a>
+          <a href="#how-it-works">How It Works</a>
+          <a href="#testimonials">Testimonials</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <a href="login.html" class="btn btn-accent">Login</a>
+      </div>
+    </header>
+
+    <main class="section">
+      <div class="container auth-layout">
+        <section class="auth-copy" aria-labelledby="signup-copy-heading">
+          <p>Let’s Get Started</p>
+          <h1 id="signup-copy-heading">Create your boutique marketing workspace.</h1>
+          <p>
+            Set up your account to plan campaigns, organize content, and grow your local
+            brand with clarity.
+          </p>
+        </section>
+
+        <section class="card auth-card" aria-labelledby="signup-title">
+          <h2 id="signup-title">Create Account</h2>
+          <form class="auth-form" action="#" method="post">
+            <div class="form-row">
+              <label for="full-name">Full Name</label>
+              <input id="full-name" name="fullName" type="text" autocomplete="name" required />
+            </div>
+
+            <div class="form-row">
+              <label for="business-name">Business Name</label>
+              <input
+                id="business-name"
+                name="businessName"
+                type="text"
+                autocomplete="organization"
+                required
+              />
+            </div>
+
+            <div class="form-row">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required />
+            </div>
+
+            <div class="form-row">
+              <label for="password">Password</label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="new-password"
+                required
+              />
+            </div>
+
+            <div class="form-row">
+              <label for="confirm-password">Confirm Password</label>
+              <input
+                id="confirm-password"
+                name="confirmPassword"
+                type="password"
+                autocomplete="new-password"
+                required
+              />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create Account</button>
+
+            <div class="auth-divider" role="separator" aria-label="Social sign up options">
+              <span>or continue with</span>
+            </div>
+
+            <div class="social-login">
+              <button type="button" class="btn" aria-label="Continue with Google">Google</button>
+              <button type="button" class="btn" aria-label="Continue with Apple">Apple</button>
+            </div>
+
+            <p class="auth-footer-text">
+              Already have an account? <a href="login.html">Sign in</a>
+            </p>
+          </form>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

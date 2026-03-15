@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BoutiqueBloom | Brand &amp; Marketing Catalogue</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="catalogue-page">
+    <header class="navbar" aria-label="Top navigation">
+      <div class="navbar-inner container">
+        <a href="#" class="brand">BoutiqueBloom</a>
+        <nav class="profile-menu" aria-label="Utility links">
+          <a href="#">Help Center</a>
+          <a href="#">Notifications</a>
+          <a href="#">Billing</a>
+          <span class="avatar-placeholder" aria-hidden="true">AB</span>
+          <button class="btn" type="button">Logout</button>
+        </nav>
+      </div>
+    </header>
+
+    <div class="catalogue-shell container">
+      <aside class="sidebar" aria-label="Primary">
+        <nav class="sidebar-nav" aria-label="Sidebar menu">
+          <a href="dashboard.html" class="sidebar-link ">Dashboard</a>
+            <a href="campaigns.html" class="sidebar-link">Campaigns</a>
+            <a href="planner.html" class="sidebar-link">Content Planner</a>
+          <a class="sidebar-link is-active" href="#" aria-current="page">Catalogue</a>
+          <a href="analytics.html" class="sidebar-link">Analytics</a>
+            <a href="brand-assets.html" class="sidebar-link">Brand Assets</a>
+          <a href="messages.html" class="sidebar-link">Messages</a>
+            <a href="settings.html" class="sidebar-link">Settings</a>
+        </nav>
+      </aside>
+
+      <main class="catalogue-main" id="main-content">
+        <header class="catalogue-header">
+          <h1>Brand &amp; Marketing Catalogue</h1>
+          <p>
+            Explore curated support packages, campaign kits, and visual assets
+            tailored for local business growth.
+          </p>
+        </header>
+
+        <section class="catalogue-toolbar" aria-label="Catalogue tools">
+          <label class="catalogue-search" for="catalogue-search-input">
+            <span class="sr-only">Search catalogue</span>
+            <input
+              id="catalogue-search-input"
+              type="search"
+              placeholder="Search packages, kits, and resources"
+            />
+          </label>
+
+          <label for="category-filter" class="toolbar-filter">
+            <span>Category</span>
+            <select id="category-filter" name="category-filter">
+              <option selected>All Categories</option>
+              <option>Campaign Kits</option>
+              <option>Brand Design</option>
+              <option>Content Support</option>
+              <option>Community Growth</option>
+            </select>
+          </label>
+
+          <label for="sort-by" class="toolbar-sort">
+            <span>Sort by</span>
+            <select id="sort-by" name="sort-by">
+              <option selected>Most Popular</option>
+              <option>Newest</option>
+              <option>Price: Low to High</option>
+              <option>Price: High to Low</option>
+            </select>
+          </label>
+        </section>
+
+        <section class="featured-package card" aria-labelledby="featured-package-title">
+          <div class="featured-content">
+            <p class="package-tag">Featured Package</p>
+            <h2 id="featured-package-title">Spring Launch Visibility Kit</h2>
+            <p>
+              A polished, ready-to-run launch package for local businesses
+              introducing a seasonal menu, product line, or event. Designed to
+              align your visuals and messaging across every customer touchpoint.
+            </p>
+            <h3>What&rsquo;s Included</h3>
+            <ul class="package-list">
+              <li>Campaign concept and 30-day rollout map</li>
+              <li>Branded social post templates and caption bank</li>
+              <li>In-store promotion toolkit and local outreach checklist</li>
+            </ul>
+            <div class="package-meta">
+              <span>Premium Campaign Kit</span>
+              <button class="btn btn-accent" type="button">Explore Package</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="package-grid" aria-label="Catalogue offerings">
+          <article class="package-card card">
+            <p class="package-tag">Social Strategy</p>
+            <h3>Social Starter Kit</h3>
+            <p>
+              Build a confident social presence with foundational planning,
+              templates, and posting guidance.
+            </p>
+            <ul class="package-list">
+              <li>7-day social content starter board</li>
+              <li>Custom caption tone guide</li>
+              <li>Instagram + Facebook template pack</li>
+            </ul>
+            <div class="package-meta">
+              <span>Starter Level &middot; $149</span>
+              <button class="btn btn-primary" type="button">View Details</button>
+            </div>
+          </article>
+
+          <article class="package-card card">
+            <p class="package-tag">Launch Support</p>
+            <h3>Local Launch Package</h3>
+            <p>
+              Introduce a new product or location with clear messaging and a
+              coordinated launch sequence.
+            </p>
+            <ul class="package-list">
+              <li>Launch timeline and milestone planner</li>
+              <li>Press-ready announcement copy</li>
+              <li>Community partner outreach template</li>
+            </ul>
+            <div class="package-meta">
+              <span>Growth Level &middot; $279</span>
+              <button class="btn btn-primary" type="button">Select Package</button>
+            </div>
+          </article>
+
+          <article class="package-card card">
+            <p class="package-tag">Seasonal Marketing</p>
+            <h3>Seasonal Campaign Bundle</h3>
+            <p>
+              Keep promotions timely and cohesive through quarterly campaigns
+              tailored to local customer behavior.
+            </p>
+            <ul class="package-list">
+              <li>3 campaign themes with promotion ideas</li>
+              <li>Email + social creative prompts</li>
+              <li>Performance check-in worksheet</li>
+            </ul>
+            <div class="package-meta">
+              <span>Pro Level &middot; $329</span>
+              <button class="btn btn-primary" type="button">View Details</button>
+            </div>
+          </article>
+
+          <article class="package-card card">
+            <p class="package-tag">Brand Design</p>
+            <h3>Visual Brand Refresh</h3>
+            <p>
+              Refine your visual identity with elevated brand direction while
+              preserving your business personality.
+            </p>
+            <ul class="package-list">
+              <li>Mini visual identity audit</li>
+              <li>Color and typography refinement</li>
+              <li>Updated social profile graphics</li>
+            </ul>
+            <div class="package-meta">
+              <span>Premium Level &middot; $420</span>
+              <button class="btn btn-primary" type="button">Select Package</button>
+            </div>
+          </article>
+
+          <article class="package-card card">
+            <p class="package-tag">Content Planning</p>
+            <h3>Content Calendar Pro</h3>
+            <p>
+              Stay consistent with a month-long framework that maps offers,
+              storytelling moments, and seasonal opportunities.
+            </p>
+            <ul class="package-list">
+              <li>30-day content calendar template</li>
+              <li>Weekly content mix recommendations</li>
+              <li>Repurposing workflow cheat sheet</li>
+            </ul>
+            <div class="package-meta">
+              <span>Growth Level &middot; $239</span>
+              <button class="btn btn-primary" type="button">View Details</button>
+            </div>
+          </article>
+
+          <article class="package-card card">
+            <p class="package-tag">Audience Growth</p>
+            <h3>Community Engagement Pack</h3>
+            <p>
+              Strengthen local loyalty through campaigns that encourage reviews,
+              referrals, and repeat interaction.
+            </p>
+            <ul class="package-list">
+              <li>Customer spotlight campaign blueprint</li>
+              <li>Review and referral prompt assets</li>
+              <li>Community event promotion checklist</li>
+            </ul>
+            <div class="package-meta">
+              <span>Starter Level &middot; $189</span>
+              <button class="btn btn-primary" type="button">Select Package</button>
+            </div>
+          </article>
+        </section>
+
+        <section class="info-row" aria-label="Additional support">
+          <article class="info-card card">
+            <h2>Recommended for You</h2>
+            <p>
+              Based on your recent campaign activity, the <strong>Content Calendar
+              Pro</strong> and <strong>Seasonal Campaign Bundle</strong> are ideal
+              next steps to improve consistency and promotion timing.
+            </p>
+            <button class="btn" type="button">See Recommendations</button>
+          </article>
+
+          <article class="info-card card">
+            <h2>Brand Asset Library Preview</h2>
+            <p>
+              Access your logo files, approved templates, and campaign imagery in
+              one organized hub so every touchpoint stays on-brand.
+            </p>
+            <button class="btn btn-accent" type="button">Open Asset Library</button>
+          </article>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

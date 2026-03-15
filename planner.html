@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>BoutiqueBloom Content Planner</title>
+		<link rel="stylesheet" href="css/style.css" />
+	</head>
+	<body class="planner-page">
+		<header class="navbar">
+			<div class="container navbar-inner">
+				<a href="index.html" class="brand">BoutiqueBloom</a>
+
+				<nav aria-label="Utility navigation" class="nav-links">
+					<a href="#">Help Center</a>
+					<a href="#">Notifications</a>
+					<a href="#">Workspace</a>
+				</nav>
+
+				<div class="profile-menu" aria-label="Profile and session controls">
+					<div class="avatar-placeholder" role="img" aria-label="Profile avatar placeholder">
+						B
+					</div>
+					<button type="button" class="btn btn-accent">Logout</button>
+				</div>
+			</div>
+		</header>
+
+		<main class="container planner-shell">
+			<aside class="sidebar" aria-label="Sidebar navigation">
+				<nav class="sidebar-nav">
+					<ul>
+						<li><a href="dashboard.html" class="sidebar-link">Dashboard</a></li>
+						<li><a href="campaigns.html" class="sidebar-link">Campaigns</a></li>
+						<li><a href="planner.html" class="sidebar-link is-active" aria-current="page">Content Planner</a></li>
+                        <li><a href="catalogue.html" class="sidebar-link">Catalogue</a></li>
+                        <li><a href="analytics.html" class="sidebar-link">Analytics</a></li>
+                        <li><a href="brand-assets.html" class="sidebar-link">Brand Assets</a></li>
+                        <li><a href="messages.html" class="sidebar-link">Messages</a></li>
+                        <li><a href="settings.html" class="sidebar-link">Settings</a></li>
+					</ul>
+				</nav>
+			</aside>
+
+			<section class="planner-main" aria-label="Content planning workspace">
+				<header class="planner-header section">
+					<h1>Content Planner</h1>
+					<p>
+						Organize upcoming campaigns, post ideas, and seasonal content in one elegant
+						workspace.
+					</p>
+				</header>
+
+				<section class="planner-toolbar" aria-label="Planner actions">
+					<div class="planner-search">
+						<label for="planner-search" class="sr-only">Search planned content</label>
+						<input
+							id="planner-search"
+							type="search"
+							placeholder="Search by campaign, platform, or keyword"
+						/>
+					</div>
+					
+					<button type="button" class="btn btn-primary">New Post</button>
+					<button type="button" class="btn btn-accent">New Campaign</button>
+				</section>
+
+				<section class="planner-board" aria-label="Planner board columns">
+					<article class="planner-column card" aria-labelledby="ideas-heading">
+						<header>
+							<h2 id="ideas-heading">Ideas</h2>
+						</header>
+
+						<article class="planner-card card">
+							<header>
+								<h3>Sunday Window Reveal Reel</h3>
+							</header>
+							<p class="planner-meta">
+								<span class="planner-tag">Instagram</span>
+								<span>Campaign: Spring Street Edit</span>
+							</p>
+							<p>
+								Capture a 20-second before-and-after of the boutique window featuring fresh
+								pastel arrivals and handwritten price tags.
+							</p>
+							<p class="planner-meta">Draft status: Concept saved</p>
+						</article>
+
+						<article class="planner-card card">
+							<header>
+								<h3>Barista Pick of the Week</h3>
+							</header>
+							<p class="planner-meta">
+								<span class="planner-tag">Facebook</span>
+								<span>Campaign: Cozy Corner Café Stories</span>
+							</p>
+							<p>
+								Spotlight one signature drink with staff quote, tasting notes, and a limited
+								weekday add-on offer for locals.
+							</p>
+							<p class="planner-meta">Draft status: Awaiting photo selection</p>
+						</article>
+
+						<article class="planner-card card">
+							<header>
+								<h3>5 Shelf Styling Tips for Tiny Homes</h3>
+							</header>
+							<p class="planner-meta">
+								<span class="planner-tag">Blog</span>
+								<span>Campaign: Home Glow Mini Series</span>
+							</p>
+							<p>
+								Long-form article featuring affordable styling tricks using artisan trays,
+								candles, and textured linen accents from the shop.
+							</p>
+							<p class="planner-meta">Draft status: Outline complete</p>
+						</article>
+					</article>
+
+					<article class="planner-column card" aria-labelledby="scheduled-heading">
+						<header>
+							<h2 id="scheduled-heading">Scheduled</h2>
+						</header>
+
+						<article class="planner-card card">
+							<header>
+								<h3>Fresh Bakes Morning Carousel</h3>
+							</header>
+							<p class="planner-meta">
+								<span class="planner-tag">Instagram</span>
+								<span>Campaign: Weekend Brunch Push</span>
+							</p>
+							<p>
+								Carousel post with flaky croissants, berry tart close-ups, and a subtle
+								call-to-action for pre-orders.
+							</p>
+							<p class="planner-meta">Scheduled: Tue, 19 Mar · 8:30 AM</p>
+						</article>
+
+						<article class="planner-card card">
+							<header>
+								<h3>Handmade Gift Bundle Pin Set</h3>
+							</header>
+							<p class="planner-meta">
+								<span class="planner-tag">Pinterest</span>
+								<span>Campaign: Mother’s Day Gifting</span>
+							</p>
+							<p>
+								Three vertical pins featuring soap bundles, ribbon wraps, and note card
+								add-ons for boutique gift shoppers.
+							</p>
+							<p class="planner-meta">Scheduled: Thu, 21 Mar · 7:00 PM</p>
+						</article>
+
+						<article class="planner-card card">
+							<header>
+								<h3>Live Music Night Reminder</h3>
+							</header>
+							<p class="planner-meta">
+								<span class="planner-tag">Facebook</span>
+								<span>Campaign: Community Friday Evenings</span>
+							</p>
+							<p>
+								Event reminder post with artist highlight, seating update, and tag-a-friend
+								prompt for neighborhood reach.
+							</p>
+							<p class="planner-meta">Scheduled: Fri, 22 Mar · 2:00 PM</p>
+						</article>
+					</article>
+
+					<article class="planner-column card" aria-labelledby="published-heading">
+						<header>
+							<h2 id="published-heading">Published</h2>
+						</header>
+
+						<article class="planner-card card">
+							<header>
+								<h3>Behind-the-Counter Morning Rituals</h3>
+							</header>
+							<p class="planner-meta">
+								<span class="planner-tag">Instagram</span>
+								<span>Campaign: Meet the Team</span>
+							</p>
+							<p>
+								Reel introducing opening-hour prep, signature pour shots, and a warm welcome
+								line from the owner.
+							</p>
+							<p class="planner-meta">Published: 13 Mar · 9:15 AM</p>
+						</article>
+
+						<article class="planner-card card">
+							<header>
+								<h3>Spring Capsule Checklist</h3>
+							</header>
+							<p class="planner-meta">
+								<span class="planner-tag">Blog</span>
+								<span>Campaign: Wardrobe Refresh Week</span>
+							</p>
+							<p>
+								Editorial-style post with seven versatile outfit picks for local shoppers,
+								linking to featured in-store items.
+							</p>
+							<p class="planner-meta">Published: 11 Mar · 11:00 AM</p>
+						</article>
+
+						<article class="planner-card card">
+							<header>
+								<h3>Customer Corner: Dining Nook Makeover</h3>
+							</header>
+							<p class="planner-meta">
+								<span class="planner-tag">Facebook</span>
+								<span>Campaign: Real Home Stories</span>
+							</p>
+							<p>
+								Before/after photos submitted by a neighborhood client, highlighting table
+								styling pieces from the studio collection.
+							</p>
+							<p class="planner-meta">Published: 10 Mar · 6:45 PM</p>
+						</article>
+					</article>
+				</section>
+
+				<aside class="planner-sidecards" aria-label="Planning support cards">
+					<article class="reminder-card card">
+						<header>
+							<h2>Upcoming Seasonal Moments</h2>
+						</header>
+						<ul>
+							<li><strong>21 Mar:</strong> First Day of Spring launch feature.</li>
+							<li><strong>29 Mar:</strong> Neighborhood Artisan Pop-Up weekend.</li>
+							<li><strong>31 Mar:</strong> End-of-month loyalty thank-you post.</li>
+						</ul>
+					</article>
+
+					<article class="reminder-card card">
+						<header>
+							<h2>Brand Voice Reminder</h2>
+						</header>
+						<p>
+							Keep messaging warm, thoughtful, and story-led. Celebrate craftsmanship,
+							community ties, and little moments of everyday beauty.
+						</p>
+					</article>
+
+					<article class="reminder-card card">
+						<header>
+							<h2>Quick Draft Ideas</h2>
+						</header>
+						<ul class="draft-list">
+							<li>“3 ways to style one scarf” short reel concept.</li>
+							<li>Owner note on sourcing local handmade goods.</li>
+							<li>Weekend café corner photo prompt with customer quote.</li>
+							<li>Pinterest mini-board: neutral home textures.</li>
+						</ul>
+					</article>
+				</aside>
+			</section>
+		</main>
+	</body>
+</html>

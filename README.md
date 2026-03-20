@@ -1,35 +1,48 @@
-Project: Local Business Marketing Support Platform
-Purpose
-A web-based marketing and branding support platform for local small businesses.
-It helps business owners organize campaigns, plan social media content, explore branding packages, and manage customer communication through a clean and elegant interface.
+🌸 BoutiqueBloom
 
-Target Users
-Local small business owners
-Home-based sellers
-Boutique brands
-Small cafés, shops, and service businesses
-Core Pages
-Home page
-Login page
-Register page
-Dashboard
-Planner / Content Calendar
-Catalogue / Services
-Contact / Feedback
-Design Style
-Atmospheric Boutique
+A Smart Boutique Management & Discovery Platform
 
-Color Palette
-Primary: #FDA4AF
-Secondary: #FFF7ED
-Accent: #FB923C
-Dark text: #451A03
-Typography
-Headings: Playfair Display
-Body/UI: Open Sans
-UI Feel
-Rounded cards
-Soft shadows
-Warm cream backgrounds
-Minimal elegant layout
-Pill-shaped buttons
+📌 Problem Statement
+
+Local boutique businesses often struggle with digital presence, inventory tracking, and customer engagement. Most rely on manual processes or scattered tools, leading to inefficiencies and missed sales opportunities.
+
+🎯 Objective
+
+BoutiqueBloom aims to:
+
+Digitize boutique operations
+
+Provide an intuitive platform for managing products
+
+Enable customers to browse and interact with boutique collections
+
+Improve visibility for small fashion businesses
+
+🌍 SDG Alignment
+
+This project aligns with:
+
+SDG 8 – Decent Work & Economic Growth
+
+Supports small businesses by enabling digital transformation and growth
+
+🚀 Features
+👤 User Side
+
+Browse boutique collections
+
+Search products
+
+View product details
+
+User authentication (Login/Register)
+
+🛠️ Admin Side
+
+Dashboard for managing products
+
+Add / Edit / Delete items
+
+Manage inventory
+
+View customer interactions

@@ -63,7 +63,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getCurrentUser() {
     try {
-      return JSON.parse(localStorage.getItem("boutiquebloomCurrentUser")) || null;
+      const user = JSON.parse(localStorage.getItem("boutiquebloomCurrentUser")) || null;
+      if (
+        user &&
+        normalizeText(user.email || "") === "shrish.alva@boutiquebloom.com"
+      ) {
+        user.fullName = "Shrish";
+      }
+      return user;
     } catch {
       return null;
     }
@@ -106,40 +113,45 @@ document.addEventListener("DOMContentLoaded", () => {
   // -----------------------------
   const loginForm = $("#login-form");
   if (loginForm) {
-    loginForm.addEventListener("submit", (event) => {
+    const errorMsg = $("#errorMsg", loginForm);
+
+    const setLoginError = (message = "") => {
+      if (!errorMsg) return;
+      errorMsg.textContent = message;
+      errorMsg.hidden = !message;
+    };
+
+    const handleLogin = (event) => {
       event.preventDefault();
 
       const email = ($("#email", loginForm)?.value || "").trim();
       const password = ($("#password", loginForm)?.value || "").trim();
+      const validEmail = "shrish.alva@boutiquebloom.com";
+      const validPassword = "12345";
 
       if (!email || !password) {
-        showToast("Please enter both email and password.", "error");
+        setLoginError("Please fill all fields");
         return;
       }
 
-      const users = getStoredUsers();
-      const matchedUser = users.find(
-        (user) =>
-          normalizeText(user.email) === normalizeText(email) &&
-          user.password === password
-      );
-
-      if (matchedUser) {
-        setCurrentUser(matchedUser);
-      } else {
-        // Frontend-only fallback so demo still works
+      if (
+        normalizeText(email) === normalizeText(validEmail) &&
+        password === validPassword
+      ) {
+        setLoginError("");
         setCurrentUser({
-          fullName: email.split("@")[0] || "Guest User",
-          businessName: "BoutiqueBloom Demo Business",
-          email,
+          fullName: "Shrish",
+          businessName: "BoutiqueBloom",
+          email: validEmail,
         });
+        window.location.href = "dashboard.html";
+        return;
       }
 
-      showToast("Signed in successfully.");
-      setTimeout(() => {
-        window.location.href = "dashboard.html";
-      }, 500);
-    });
+      setLoginError("Invalid email or password");
+    };
+
+    loginForm.addEventListener("submit", handleLogin);
   }
 
   // -----------------------------
@@ -440,6 +452,26 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   });
+
+  // -----------------------------
+  // Back to top
+  // -----------------------------
+  const backToTopButton = $(".back-to-top");
+  if (backToTopButton) {
+    const toggleBackToTop = () => {
+      backToTopButton.classList.toggle("is-visible", window.scrollY > 200);
+    };
+
+    toggleBackToTop();
+
+    window.addEventListener("scroll", toggleBackToTop, { passive: true });
+    backToTopButton.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    });
+  }
 });
 /* ==========================
    Page Loading Animation

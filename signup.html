@@ -39,26 +39,34 @@
 
         <section class="card auth-card" aria-labelledby="signup-title">
           <h2 id="signup-title">Create Account</h2>
-          <form id="signup-form" class="auth-form" action="#" method="post">
+          <form id="signup-form" class="auth-form" action="#" method="post" data-supabase-signup>
             <div class="form-row">
               <label for="full-name">Full Name</label>
               <input id="full-name" name="fullName" type="text" autocomplete="name" required />
             </div>
 
             <div class="form-row">
-              <label for="business-name">Business Name</label>
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" required />
+            </div>
+
+            <div class="form-row">
+              <label for="phone">Phone <span class="optional-text">(optional)</span></label>
               <input
-                id="business-name"
-                name="businessName"
-                type="text"
-                autocomplete="organization"
-                required
+                id="phone"
+                name="phone"
+                type="tel"
+                autocomplete="tel"
+                inputmode="tel"
               />
             </div>
 
             <div class="form-row">
-              <label for="email">Email</label>
-              <input id="email" name="email" type="email" autocomplete="email" required />
+              <label for="signup-role">Account Type</label>
+              <select id="signup-role" name="role" data-role-control required>
+                <option value="seller">Seller</option>
+                <option value="customer">Customer</option>
+              </select>
             </div>
 
             <div class="form-row">
@@ -83,7 +91,9 @@
               />
             </div>
 
-            <button type="submit" class="btn btn-primary">Create Account</button>
+            <p id="signupMessage" class="auth-footer-text auth-status-text" hidden aria-live="polite"></p>
+
+            <button id="signupBtn" type="submit" class="btn btn-primary">Create Account</button>
 
             <div class="auth-divider" role="separator" aria-label="Social sign up options">
               <span>or continue with</span>
@@ -101,6 +111,9 @@
         </section>
       </div>
     </main>
+    <script src="js/role.js"></script>
     <script src="js/script.js"></script>
+    <script type="module" src="js/signup.js"></script>
+    
   </body>
 </html>

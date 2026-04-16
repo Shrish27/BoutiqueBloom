@@ -28,7 +28,7 @@
           <div class="avatar-placeholder" role="img" aria-label="Mira profile avatar">
             S
           </div>
-          <button class="btn" type="button">Profile</button>
+          <a class="btn" href="seller-profile.html">Profile</a>
           
           <a class="btn btn-accent" href="login.html">Logout</a>
         </div>
@@ -43,6 +43,7 @@
             <li><a href="campaigns.html" class="sidebar-link">Campaigns</a></li>
             <li><a href="planner.html" class="sidebar-link">Content Planner</a></li>
             <li><a href="catalogue.html" class="sidebar-link">Catalogue</a></li>
+            <li><a href="seller-profile.html" class="sidebar-link">Seller Profile</a></li>
             <li><a href="coming-soon.html" class="sidebar-link">Analytics</a></li>
             <li><a href="coming-soon.html" class="sidebar-link">Brand Assets</a></li>
             <li><a href="coming-soon.html" class="sidebar-link">Messages</a></li>
@@ -50,10 +51,10 @@
           </ul>
         </nav>
       </aside>
-
+      
       <section class="dashboard-main" aria-label="Dashboard overview">
         <header class="dashboard-header section">
-          <h1>Good Evening, Shrish</h1>
+          <h2 id="welcome-user">Welcome Back, Shrish</h2>
           <p>Here’s how your brand is performing this week.</p>
         </header>
 
@@ -158,5 +159,7 @@
       </section>
     </main>
     <script src="js/script.js"></script>
+    <script type="module" src="js/auth-guard.js"></script>
+    <script type="module" src="js/dashboard-user.js"></script>
   </body>
 </html>

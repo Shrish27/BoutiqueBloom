@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BoutiqueBloom | Customer Profile</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" type="image/png" sizes="64x64" href="images/favicon.png?v=2">
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png?v=2">
+  </head>
+  <body class="marketplace-page profile-page customer-profile-page">
+    <div id="page-loader">
+      <div class="loader-spinner"></div>
+    </div>
+
+    <header class="navbar" aria-label="Customer navigation">
+      <div class="navbar-inner container">
+        <a href="index.html" class="brand">BoutiqueBloom</a>
+        <nav aria-label="Customer links">
+          <ul class="nav-links">
+            <li><a href="marketplace.html">Marketplace</a></li>
+            <li><a href="customer-profile.html">My Profile</a></li>
+            <li><a href="dashboard.html">Seller Dashboard</a></li>
+          </ul>
+        </nav>
+        <div class="profile-menu" aria-label="Customer controls">
+          <select class="role-switcher" data-role-control aria-label="Choose role">
+            <option value="customer">Customer</option>
+            <option value="seller">Seller</option>
+          </select>
+          <a class="btn btn-accent" href="login.html">Logout</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container customer-profile-shell">
+      <header class="profile-header">
+        <div>
+          <p class="hero-badge">Customer Account</p>
+          <h1>My Profile</h1>
+          <p>Manage delivery details, contact information, and boutique shopping preferences.</p>
+        </div>
+        <img id="customer-profile-preview" class="profile-preview" src="" alt="Customer profile preview" />
+      </header>
+
+      <section class="stats-grid profile-summary-grid" aria-label="Customer summary">
+        <article class="card stat-card">
+          <h2>Saved Items</h2>
+          <p class="stat-value">12</p>
+          <p class="stat-meta">Across 5 boutiques</p>
+        </article>
+        <article class="card stat-card">
+          <h2>Recent Orders</h2>
+          <p class="stat-value">3</p>
+          <p class="stat-meta">One ready for pickup</p>
+        </article>
+        <article class="card stat-card">
+          <h2>Recently Viewed</h2>
+          <p class="stat-value">18</p>
+          <p class="stat-meta">Fresh picks this week</p>
+        </article>
+      </section>
+
+      <form id="customer-profile-form" class="profile-form" action="#" method="post">
+        <p id="customer-profile-status" class="form-status" hidden aria-live="polite"></p>
+
+        <section class="settings-grid" aria-label="Customer profile details">
+          <article class="card settings-card">
+            <h2>Personal Info</h2>
+            <div class="form-row">
+              <label for="customer-full-name">Full Name</label>
+              <input id="customer-full-name" name="fullName" type="text" autocomplete="name" required />
+            </div>
+            <div class="form-row">
+              <label for="customer-email">Email</label>
+              <input id="customer-email" name="email" type="email" autocomplete="email" required />
+            </div>
+            <div class="form-row">
+              <label for="customer-phone">Phone</label>
+              <input id="customer-phone" name="phone" type="tel" autocomplete="tel" />
+            </div>
+            <div class="form-row">
+              <label for="customer-profile-image">Profile Image URL</label>
+              <input id="customer-profile-image" name="profileImage" type="url" />
+            </div>
+          </article>
+
+          <article class="card settings-card">
+            <h2>Delivery Address</h2>
+            <div class="form-row">
+              <label for="customer-address">Address</label>
+              <textarea id="customer-address" name="address" rows="4"></textarea>
+            </div>
+            <div class="form-row">
+              <label for="customer-city">City</label>
+              <input id="customer-city" name="city" type="text" />
+            </div>
+            <div class="form-row">
+              <label for="customer-state">State</label>
+              <input id="customer-state" name="state" type="text" />
+            </div>
+            <div class="form-row">
+              <label for="customer-pincode">Pincode</label>
+              <input id="customer-pincode" name="pincode" type="text" inputmode="numeric" />
+            </div>
+          </article>
+
+          <article class="card settings-card profile-wide-card">
+            <h2>Shopping Preferences</h2>
+            <div class="form-row">
+              <label for="customer-preferences">Preferences</label>
+              <textarea id="customer-preferences" name="preferences" rows="5"></textarea>
+            </div>
+          </article>
+        </section>
+
+        <div class="settings-actions">
+          <button class="btn btn-accent" type="submit">Save Changes</button>
+        </div>
+      </form>
+    </main>
+
+    <script src="js/role.js"></script>
+    <script src="js/script.js"></script>
+    <script type="module" src="js/profile.js"></script>
+  </body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BoutiqueBloom | Marketplace</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" type="image/png" sizes="64x64" href="images/favicon.png?v=2">
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png?v=2">
+  </head>
+  <body class="marketplace-page">
+    <div id="page-loader">
+      <div class="loader-spinner"></div>
+    </div>
+
+    <header class="navbar" aria-label="Customer navigation">
+      <div class="navbar-inner container">
+        <a href="index.html" class="brand">BoutiqueBloom</a>
+        <nav aria-label="Marketplace navigation">
+          <ul class="nav-links">
+            <li><a href="marketplace.html">Marketplace</a></li>
+            <li><a href="customer-profile.html">My Profile</a></li>
+            <li><a href="seller-profile.html">Seller View</a></li>
+          </ul>
+        </nav>
+        <div class="profile-menu" aria-label="Customer controls">
+          <select class="role-switcher" data-role-control aria-label="Choose role">
+            <option value="customer">Customer</option>
+            <option value="seller">Seller</option>
+          </select>
+          <a class="btn btn-accent" href="login.html">Logout</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="marketplace-hero" aria-labelledby="marketplace-title">
+        <div class="container marketplace-hero-inner">
+          <div>
+            <p class="hero-badge">Curated Local Finds</p>
+            <h1 id="marketplace-title">Shop thoughtful pieces from independent boutiques.</h1>
+            <p>
+              Discover apparel, gifts, florals, accessories, and handmade details from boutiques with their own beautiful point of view.
+            </p>
+          </div>
+          <div class="marketplace-hero-card" aria-label="Marketplace summary">
+            <span>Featured today</span>
+            <strong>18 boutique picks</strong>
+            <p>Fresh arrivals, limited stock edits, and local favorites gathered for easy browsing.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="container marketplace-main" aria-label="Customer marketplace">
+        <section class="marketplace-toolbar" aria-label="Search and filter products">
+          <label class="marketplace-search" for="marketplace-search">
+            <span>Search</span>
+            <input id="marketplace-search" type="search" placeholder="Search products, boutiques, or categories" />
+          </label>
+
+          <label for="marketplace-category">
+            <span>Category</span>
+            <select id="marketplace-category">
+              <option value="all">All Categories</option>
+              <option value="Apparel">Apparel</option>
+              <option value="Accessories">Accessories</option>
+              <option value="Florals">Florals</option>
+              <option value="Home Decor">Home Decor</option>
+              <option value="Gifts">Gifts</option>
+            </select>
+          </label>
+
+          <label for="marketplace-stock">
+            <span>Availability</span>
+            <select id="marketplace-stock">
+              <option value="all">All Stock</option>
+              <option value="in-stock">In Stock</option>
+              <option value="low-stock">Low Stock</option>
+            </select>
+          </label>
+
+          <label for="marketplace-sort">
+            <span>Sort by</span>
+            <select id="marketplace-sort">
+              <option value="featured">Featured</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="newest">Newest</option>
+            </select>
+          </label>
+        </section>
+
+        <section id="marketplace-grid" class="product-grid" aria-live="polite" aria-label="Boutique products"></section>
+
+        <section id="marketplace-empty" class="empty-state card" hidden>
+          <h2>No boutique finds match that search.</h2>
+          <p>Try a softer search term, clear the filters, or browse all categories again.</p>
+          <button id="clear-marketplace-filters" class="btn btn-accent" type="button">Clear Filters</button>
+        </section>
+      </section>
+    </main>
+
+    <div id="customer-product-modal" class="product-modal hidden" aria-hidden="true">
+      <div class="product-modal-backdrop" data-close-product-modal></div>
+      <article class="product-modal-content customer-product-modal card" role="dialog" aria-modal="true" aria-labelledby="customer-modal-title">
+        <button class="close-modal-btn" type="button" aria-label="Close product details" data-close-product-modal>&times;</button>
+        <img id="customer-modal-image" src="" alt="" />
+        <p class="package-tag" id="customer-modal-category">Category</p>
+        <h2 id="customer-modal-title">Product name</h2>
+        <p id="customer-modal-description">Product description</p>
+        <dl class="product-detail-list">
+          <div>
+            <dt>Boutique</dt>
+            <dd id="customer-modal-boutique">Boutique name</dd>
+          </div>
+          <div>
+            <dt>Price</dt>
+            <dd id="customer-modal-price">₹0</dd>
+          </div>
+          <div>
+            <dt>Stock</dt>
+            <dd id="customer-modal-stock">In stock</dd>
+          </div>
+        </dl>
+        <button class="btn btn-accent" type="button">Save Item</button>
+      </article>
+    </div>
+
+    <button class="back-to-top" type="button" aria-label="Back to top">
+      <span class="back-to-top-icon" aria-hidden="true">&uarr;</span>
+    </button>
+
+    <script src="js/role.js"></script>
+    <script src="js/script.js"></script>
+    <script type="module" src="js/marketplace.js"></script>
+  </body>
+</html>

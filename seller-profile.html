@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BoutiqueBloom | Seller Profile</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" type="image/png" sizes="64x64" href="images/favicon.png?v=2">
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png?v=2">
+  </head>
+  <body class="settings-page profile-page seller-profile-page">
+    <div id="page-loader">
+      <div class="loader-spinner"></div>
+    </div>
+
+    <header class="navbar">
+      <div class="navbar-inner container">
+        <a href="index.html" class="brand" aria-label="BoutiqueBloom home">BoutiqueBloom</a>
+        <nav aria-label="Top utility links">
+          <ul class="profile-menu">
+            <li><a href="marketplace.html">Marketplace</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
+            <li><a href="seller-profile.html" class="avatar-placeholder" aria-label="Seller profile">S</a></li>
+            <li><a class="btn btn-accent" href="login.html">Logout</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="container settings-shell">
+      <aside class="sidebar" aria-label="Primary navigation">
+        <nav class="sidebar-nav">
+          <a class="sidebar-link" href="dashboard.html">Dashboard</a>
+          <a class="sidebar-link" href="campaigns.html">Campaigns</a>
+          <a class="sidebar-link" href="planner.html">Content Planner</a>
+          <a class="sidebar-link" href="catalogue.html">Catalogue</a>
+          <a class="sidebar-link" href="coming-soon.html">Analytics</a>
+          <a class="sidebar-link" href="coming-soon.html">Brand Assets</a>
+          <a class="sidebar-link" href="coming-soon.html">Messages</a>
+          <a class="sidebar-link is-active" href="seller-profile.html" aria-current="page">Seller Profile</a>
+          <a class="sidebar-link" href="settings.html">Settings</a>
+        </nav>
+      </aside>
+
+      <main class="settings-main" id="main-content">
+        <header class="settings-header profile-header">
+          <div>
+            <p class="hero-badge">Seller Workspace</p>
+            <h1>Seller Profile</h1>
+            <p>Keep your personal details and boutique story polished for future storefront and backend integration.</p>
+          </div>
+          <img id="seller-profile-preview" class="profile-preview" src="" alt="Seller profile preview" />
+        </header>
+
+        <form id="seller-profile-form" class="profile-form" action="#" method="post">
+          <p id="seller-profile-status" class="form-status" hidden aria-live="polite"></p>
+
+          <section class="settings-grid" aria-label="Seller profile sections">
+            <article class="card settings-card">
+              <h2>Personal Info</h2>
+              <div class="form-row">
+                <label for="seller-full-name">Full Name</label>
+                <input id="seller-full-name" name="fullName" type="text" autocomplete="name" required />
+              </div>
+              <div class="form-row">
+                <label for="seller-email">Email</label>
+                <input id="seller-email" name="email" type="email" autocomplete="email" required />
+              </div>
+              <div class="form-row">
+                <label for="seller-phone">Phone</label>
+                <input id="seller-phone" name="phone" type="tel" autocomplete="tel" />
+              </div>
+              <div class="form-row">
+                <label for="seller-profile-image">Profile Image URL</label>
+                <input id="seller-profile-image" name="profileImage" type="url" />
+              </div>
+            </article>
+
+            <article class="card settings-card">
+              <h2>Boutique Info</h2>
+              <div class="form-row">
+                <label for="seller-boutique-name">Boutique Name</label>
+                <input id="seller-boutique-name" name="boutiqueName" type="text" required />
+              </div>
+              <div class="form-row">
+                <label for="seller-category">Category</label>
+                <input id="seller-category" name="category" type="text" />
+              </div>
+              <div class="form-row">
+                <label for="seller-description">Description</label>
+                <textarea id="seller-description" name="description" rows="5"></textarea>
+              </div>
+              <div class="form-row">
+                <label for="seller-logo">Logo/Image URL</label>
+                <input id="seller-logo" name="logoImage" type="url" />
+              </div>
+              <img id="seller-logo-preview" class="logo-preview" src="" alt="Boutique logo preview" />
+            </article>
+
+            <article class="card settings-card">
+              <h2>Location</h2>
+              <div class="form-row">
+                <label for="seller-city">City</label>
+                <input id="seller-city" name="city" type="text" />
+              </div>
+              <div class="form-row">
+                <label for="seller-address">Address</label>
+                <textarea id="seller-address" name="address" rows="4"></textarea>
+              </div>
+            </article>
+
+            <article class="card settings-card">
+              <h2>Social Links</h2>
+              <div class="form-row">
+                <label for="seller-instagram">Instagram</label>
+                <input id="seller-instagram" name="instagram" type="url" />
+              </div>
+              <div class="form-row">
+                <label for="seller-website">Website</label>
+                <input id="seller-website" name="website" type="url" />
+              </div>
+            </article>
+          </section>
+
+          <div class="settings-actions">
+            <button class="btn btn-accent" type="submit">Save Changes</button>
+          </div>
+        </form>
+      </main>
+    </div>
+
+    <script src="js/role.js"></script>
+    <script src="js/script.js"></script>
+    <script type="module" src="js/profile.js"></script>
+  </body>
+</html>

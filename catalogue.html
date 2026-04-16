@@ -35,6 +35,7 @@
           <a href="coming-soon.html" class="sidebar-link">Analytics</a>
             <a href="coming-soon.html" class="sidebar-link">Brand Assets</a>
           <a href="coming-soon.html" class="sidebar-link">Messages</a>
+            <a href="seller-profile.html" class="sidebar-link">Seller Profile</a>
             <a href="settings.html" class="sidebar-link">Settings</a>
         </nav>
       </aside>
@@ -80,137 +81,73 @@
           </label>
         </section>
 
-        <section class="featured-package card" aria-labelledby="featured-package-title">
-          <div class="featured-content">
-            <p class="package-tag">Featured Package</p>
-            <h2 id="featured-package-title">Spring Launch Visibility Kit</h2>
-            <p>
-              A polished, ready-to-run launch package for local businesses
-              introducing a seasonal menu, product line, or event. Designed to
-              align your visuals and messaging across every customer touchpoint.
-            </p>
-            <h3>What&rsquo;s Included</h3>
-            <ul class="package-list">
-              <li>Campaign concept and 30-day rollout map</li>
-              <li>Branded social post templates and caption bank</li>
-              <li>In-store promotion toolkit and local outreach checklist</li>
-            </ul>
-            <div class="package-meta">
-              <span>Premium Campaign Kit</span>
-              <button class="btn btn-accent" type="button">Explore Package</button>
-            </div>
-          </div>
-        </section>
+        
+        <section class="catalogue-actions">
+  <button id="open-add-product-modal" class="btn btn-accent" type="button">
+    Add Product
+  </button>
+  <p id="catalogue-status" class="form-status" hidden aria-live="polite"></p>
+</section>
+<div id="add-product-modal" class="product-modal hidden" aria-hidden="true">
+  <div class="product-modal-backdrop" id="add-product-backdrop"></div>
 
-        <section class="package-grid" aria-label="Catalogue offerings">
-          <article class="package-card card">
-            <p class="package-tag">Social Strategy</p>
-            <h3>Social Starter Kit</h3>
-            <p>
-              Build a confident social presence with foundational planning,
-              templates, and posting guidance.
-            </p>
-            <ul class="package-list">
-              <li>7-day social content starter board</li>
-              <li>Custom caption tone guide</li>
-              <li>Instagram + Facebook template pack</li>
-            </ul>
-            <div class="package-meta">
-              <span>Starter Level &middot; $149</span>
-              <button class="btn btn-primary" type="button">View Details</button>
-            </div>
-          </article>
+  <div class="product-modal-content card" role="dialog" aria-modal="true" aria-labelledby="add-product-title">
+    <button id="close-add-product-modal" class="btn" type="button">Close</button>
 
-          <article class="package-card card">
-            <p class="package-tag">Launch Support</p>
-            <h3>Local Launch Package</h3>
-            <p>
-              Introduce a new product or location with clear messaging and a
-              coordinated launch sequence.
-            </p>
-            <ul class="package-list">
-              <li>Launch timeline and milestone planner</li>
-              <li>Press-ready announcement copy</li>
-              <li>Community partner outreach template</li>
-            </ul>
-            <div class="package-meta">
-              <span>Growth Level &middot; $279</span>
-              <button class="btn btn-primary" type="button">Select Package</button>
-            </div>
-          </article>
+    <h2 id="add-product-title">Add Product</h2>
 
-          <article class="package-card card">
-            <p class="package-tag">Seasonal Marketing</p>
-            <h3>Seasonal Campaign Bundle</h3>
-            <p>
-              Keep promotions timely and cohesive through quarterly campaigns
-              tailored to local customer behavior.
-            </p>
-            <ul class="package-list">
-              <li>3 campaign themes with promotion ideas</li>
-              <li>Email + social creative prompts</li>
-              <li>Performance check-in worksheet</li>
-            </ul>
-            <div class="package-meta">
-              <span>Pro Level &middot; $329</span>
-              <button class="btn btn-primary" type="button">View Details</button>
-            </div>
-          </article>
+    <form id="add-product-form" class="add-product-form">
+      <input
+        type="text"
+        id="product-name"
+        placeholder="Product name"
+        required
+      />
 
-          <article class="package-card card">
-            <p class="package-tag">Brand Design</p>
-            <h3>Visual Brand Refresh</h3>
-            <p>
-              Refine your visual identity with elevated brand direction while
-              preserving your business personality.
-            </p>
-            <ul class="package-list">
-              <li>Mini visual identity audit</li>
-              <li>Color and typography refinement</li>
-              <li>Updated social profile graphics</li>
-            </ul>
-            <div class="package-meta">
-              <span>Premium Level &middot; $420</span>
-              <button class="btn btn-primary" type="button">Select Package</button>
-            </div>
-          </article>
+      <input
+        type="text"
+        id="product-category"
+        placeholder="Category"
+        required
+      />
 
-          <article class="package-card card">
-            <p class="package-tag">Content Planning</p>
-            <h3>Content Calendar Pro</h3>
-            <p>
-              Stay consistent with a month-long framework that maps offers,
-              storytelling moments, and seasonal opportunities.
-            </p>
-            <ul class="package-list">
-              <li>30-day content calendar template</li>
-              <li>Weekly content mix recommendations</li>
-              <li>Repurposing workflow cheat sheet</li>
-            </ul>
-            <div class="package-meta">
-              <span>Growth Level &middot; $239</span>
-              <button class="btn btn-primary" type="button">View Details</button>
-            </div>
-          </article>
+      <input
+        type="number"
+        id="product-price"
+        placeholder="Price"
+        min="0"
+        step="0.01"
+        required
+      />
 
-          <article class="package-card card">
-            <p class="package-tag">Audience Growth</p>
-            <h3>Community Engagement Pack</h3>
-            <p>
-              Strengthen local loyalty through campaigns that encourage reviews,
-              referrals, and repeat interaction.
-            </p>
-            <ul class="package-list">
-              <li>Customer spotlight campaign blueprint</li>
-              <li>Review and referral prompt assets</li>
-              <li>Community event promotion checklist</li>
-            </ul>
-            <div class="package-meta">
-              <span>Starter Level &middot; $189</span>
-              <button class="btn btn-primary" type="button">Select Package</button>
-            </div>
-          </article>
-        </section>
+      <input
+        type="number"
+        id="product-stock"
+        placeholder="Stock"
+        min="0"
+        required
+      />
+
+      <input
+        type="url"
+        id="product-image-url"
+        placeholder="Image URL"
+      />
+
+      <textarea
+        id="product-description"
+        placeholder="Product description"
+        rows="5"
+        required
+      ></textarea>
+
+      <button id="add-product-submit-btn" type="submit" class="btn btn-accent">Save Product</button>
+    </form>
+  </div>
+</div>
+        <section class="package-grid" id="product-grid" aria-label="Catalogue offerings">
+  <p>Loading products...</p>
+</section>
 
         <section class="info-row" aria-label="Additional support">
           <article class="info-card card">
@@ -234,6 +171,35 @@
         </section>
       </main>
     </div>
+    <div id="product-modal" class="product-modal hidden" aria-hidden="true">
+  <div class="product-modal-backdrop" id="modal-backdrop"></div>
+
+  <div class="product-modal-content card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button id="close-modal" class="btn" type="button">Close</button>
+
+    <p class="package-tag" id="modal-category">Category</p>
+    <h2 id="modal-title">Product Name</h2>
+    <p id="modal-description">Product description goes here.</p>
+
+    <div class="package-meta">
+      <span id="modal-price">₹0</span>
+      <span id="modal-stock">Stock: 0</span>
+    </div>
+
+    <div class="product-modal-actions">
+      <button id="edit-product-btn" class="btn btn-primary" type="button">
+        Edit Product
+      </button>
+      <button id="delete-product-btn" class="btn btn-outline" type="button">
+        Delete Product
+      </button>
+    </div>
+
+    <div id="modal-image-wrapper"></div>
+  </div>
+</div>
+
     <script src="js/script.js"></script>
+    <script type="module" src="js/cataloguepage.js"></script>
   </body>
 </html>

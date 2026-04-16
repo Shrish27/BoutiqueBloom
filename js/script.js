@@ -45,6 +45,193 @@ document.addEventListener("DOMContentLoaded", () => {
     return text.toLowerCase().replace(/\s+/g, " ").trim();
   }
 
+  function normalizeSpaces(text) {
+  return text.replace(/\s+/g, " ");
+}
+
+  function getFieldLabel(field) {
+    const explicitLabel = field.id ? document.querySelector(`label[for="${field.id}"]`) : null;
+    return (
+      explicitLabel?.textContent?.trim() ||
+      field.getAttribute("aria-label") ||
+      field.name ||
+      field.id ||
+      "This field"
+    );
+  }
+
+  function setFieldState(field, message = "") {
+    field.setCustomValidity(message);
+    if (message) {
+      field.setAttribute("aria-invalid", "true");
+    } else {
+      field.removeAttribute("aria-invalid");
+    }
+  }
+
+  function sanitizeFieldValue(field) {
+  if (
+    !field ||
+    field.matches(
+      '[type="checkbox"], [type="radio"], [type="hidden"], [type="submit"], [type="button"], [type="reset"]'
+    )
+  ) {
+    return;
+  }
+
+  const tagName = field.tagName.toLowerCase();
+  const type = (field.getAttribute("type") || "").toLowerCase();
+  const originalValue = String(field.value || "");
+
+  if (tagName === "select") return;
+
+  let sanitized = originalValue;
+
+  if (type === "password") {
+    sanitized = originalValue.trim();
+  } else if (type === "email" || type === "url") {
+    sanitized = originalValue.trim();
+  } else if (type === "tel") {
+    sanitized = originalValue.replace(/[^\d+()\-\s]/g, "");
+    sanitized = sanitized.replace(/\s+/g, " ").trim();
+  } else if (tagName === "textarea") {
+    // Keep spaces while typing; only remove unsafe characters
+    sanitized = originalValue.replace(/[<>]/g, "").replace(/\r/g, "");
+  } else {
+  sanitized = normalizeSpaces(originalValue.replace(/[<>]/g, ""));
+}
+
+  if (sanitized !== originalValue) {
+    field.value = sanitized;
+  }
+}
+  function isStrongPassword(value) {
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,64}$/.test(value);
+  }
+
+  function validateField(field) {
+    if (!field || field.disabled) return true;
+    if (field.matches('[type="checkbox"], [type="radio"], [type="hidden"], [type="submit"], [type="button"], [type="reset"]')) {
+      return true;
+    }
+
+    sanitizeFieldValue(field);
+
+    const form = field.form;
+    const tagName = field.tagName.toLowerCase();
+    const type = (field.getAttribute("type") || "").toLowerCase();
+    const key = `${field.id || ""} ${field.name || ""}`.toLowerCase();
+    const label = getFieldLabel(field);
+    const value = String(field.value || "");
+    const trimmedValue = value.trim();
+    let message = "";
+
+    if (field.required && !trimmedValue) {
+      message = `${label} is required.`;
+    } else if (/[<>]/.test(value)) {
+      message = `${label} contains invalid characters.`;
+    } else if (type === "email" && trimmedValue && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(trimmedValue)) {
+      message = "Enter a valid email address.";
+    } else if (type === "tel" && trimmedValue && !/^\+?[\d()\-\s]{7,20}$/.test(trimmedValue)) {
+      message = "Enter a valid phone number.";
+    } else if (type === "url" && trimmedValue) {
+      try {
+        const parsed = new URL(trimmedValue);
+        if (!["http:", "https:"].includes(parsed.protocol)) {
+          message = "Website must start with http:// or https://.";
+        }
+      } catch {
+        message = "Enter a valid website URL.";
+      }
+    } else if ((key.includes("full-name") || key.includes("full_name")) && trimmedValue && !/^[A-Za-z][A-Za-z\s.'-]{1,59}$/.test(trimmedValue)) {
+      message = "Enter a valid full name.";
+    } else if (key.includes("business-name") || key.includes("business_name")) {
+      if (trimmedValue && trimmedValue.length < 2) {
+        message = "Business name must be at least 2 characters.";
+      } else if (trimmedValue && trimmedValue.length > 80) {
+        message = "Business name must be 80 characters or fewer.";
+      }
+    } else if (key.includes("subject") && trimmedValue && trimmedValue.length < 3) {
+      message = "Subject must be at least 3 characters.";
+    } else if (tagName === "textarea" && trimmedValue && trimmedValue.length < 10) {
+      message = `${label} must be at least 10 characters.`;
+    } else if (key.includes("primary-color") || key.includes("primary_color")) {
+      if (trimmedValue && !/^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(trimmedValue)) {
+        message = "Enter a valid hex color like #FDA4AF.";
+      }
+    } else if (type === "password") {
+      const isSignupPassword = form?.id === "signup-form" && field.id === "password";
+      const isNewPassword = field.id === "new-password";
+      const isConfirmPassword = field.id === "confirm-password";
+
+      if ((isSignupPassword || isNewPassword) && trimmedValue && !isStrongPassword(trimmedValue)) {
+        message = "Password must be 8+ characters with uppercase, lowercase, and a number.";
+      } else if (isConfirmPassword) {
+        const sourcePassword =
+          $("#password", form) ||
+          $("#new-password", form);
+
+        if (trimmedValue && sourcePassword && trimmedValue !== String(sourcePassword.value || "").trim()) {
+          message = "Passwords do not match.";
+        }
+      }
+    } else if (trimmedValue && trimmedValue.length > 1000) {
+      message = `${label} is too long.`;
+    }
+
+    setFieldState(field, message);
+    return !message;
+  }
+
+  function getProtectedFields(parent = document) {
+    return $$("input, textarea, select", parent).filter(
+      (field) =>
+        !field.disabled &&
+        !field.matches('[type="checkbox"], [type="radio"], [type="hidden"], [type="submit"], [type="button"], [type="reset"]')
+    );
+  }
+
+  function validateFormFields(form) {
+    const invalidField = getProtectedFields(form).find((field) => !validateField(field));
+    if (invalidField) {
+      invalidField.reportValidity();
+      invalidField.focus();
+      return false;
+    }
+
+    return true;
+  }
+
+  function protectInteractiveFields(parent = document) {
+    getProtectedFields(parent).forEach((field) => {
+      if (field.dataset.authProtected === "true") return;
+
+      field.dataset.authProtected = "true";
+
+      if (!field.hasAttribute("maxlength")) {
+        const type = (field.getAttribute("type") || "").toLowerCase();
+        const maxLength =
+          field.tagName.toLowerCase() === "textarea" ? 1000 :
+          type === "password" ? 64 :
+          type === "email" ? 120 :
+          type === "url" ? 200 :
+          type === "tel" ? 20 :
+          80;
+
+        field.setAttribute("maxlength", String(maxLength));
+      }
+
+      const eventName = field.tagName.toLowerCase() === "select" ? "change" : "input";
+      field.addEventListener(eventName, () => {
+        validateField(field);
+      });
+
+      field.addEventListener("blur", () => {
+        validateField(field);
+      });
+    });
+  }
+
   function getStoredUsers() {
     try {
       return JSON.parse(localStorage.getItem("boutiquebloomUsers")) || [];
@@ -75,6 +262,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return null;
     }
   }
+
+  protectInteractiveFields();
 
   // -----------------------------
   // Global active link highlighting
@@ -112,7 +301,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Login form
   // -----------------------------
   const loginForm = $("#login-form");
-  if (loginForm) {
+  if (loginForm && !loginForm.matches("[data-supabase-login]")) {
     const errorMsg = $("#errorMsg", loginForm);
 
     const setLoginError = (message = "") => {
@@ -124,10 +313,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const handleLogin = (event) => {
       event.preventDefault();
 
+      if (!validateFormFields(loginForm)) {
+        setLoginError("Please correct the highlighted fields.");
+        return;
+      }
+
       const email = ($("#email", loginForm)?.value || "").trim();
       const password = ($("#password", loginForm)?.value || "").trim();
       const validEmail = "shrish.alva@boutiquebloom.com";
       const validPassword = "12345";
+      const storedUser = getStoredUsers().find(
+        (user) => normalizeText(user.email || "") === normalizeText(email)
+      );
 
       if (!email || !password) {
         setLoginError("Please fill all fields");
@@ -139,12 +336,25 @@ document.addEventListener("DOMContentLoaded", () => {
         password === validPassword
       ) {
         setLoginError("");
+        const selectedRole = $("#login-role", loginForm)?.value || "seller";
+        window.BoutiqueBloomRole?.setRole(selectedRole);
         setCurrentUser({
           fullName: "Shrish",
           businessName: "BoutiqueBloom",
           email: validEmail,
+          password: validPassword,
+          role: selectedRole,
         });
-        window.location.href = "dashboard.html";
+        window.location.href = window.BoutiqueBloomRole?.getDashboardRoute(selectedRole) || "dashboard.html";
+        return;
+      }
+
+      if (storedUser && storedUser.password === password) {
+        setLoginError("");
+        const selectedRole = $("#login-role", loginForm)?.value || storedUser.role || "seller";
+        window.BoutiqueBloomRole?.setRole(selectedRole);
+        setCurrentUser({ ...storedUser, role: selectedRole });
+        window.location.href = window.BoutiqueBloomRole?.getDashboardRoute(selectedRole) || "dashboard.html";
         return;
       }
 
@@ -158,9 +368,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // Signup form
   // -----------------------------
   const signupForm = $("#signup-form");
-  if (signupForm) {
+  if (signupForm && !signupForm.matches("[data-supabase-signup]")) {
     signupForm.addEventListener("submit", (event) => {
       event.preventDefault();
+
+      if (!validateFormFields(signupForm)) {
+        showToast("Please correct the highlighted signup fields.", "error");
+        return;
+      }
 
       const fullName = ($("#full-name", signupForm)?.value || "").trim();
       const businessName = ($("#business-name", signupForm)?.value || "").trim();
@@ -376,11 +591,8 @@ document.addEventListener("DOMContentLoaded", () => {
     contactForm.addEventListener("submit", (event) => {
       event.preventDefault();
 
-      const requiredFields = $$("input, textarea, select", contactForm);
-      const hasEmpty = requiredFields.some((field) => !String(field.value).trim());
-
-      if (hasEmpty) {
-        showToast("Please complete all contact form fields.", "error");
+      if (!validateFormFields(contactForm)) {
+        showToast("Please correct the highlighted contact fields.", "error");
         return;
       }
 
@@ -397,9 +609,15 @@ document.addEventListener("DOMContentLoaded", () => {
     settingsPageForm.addEventListener("submit", (event) => {
       event.preventDefault();
 
+      if (!validateFormFields(settingsPageForm)) {
+        showToast("Please correct the highlighted settings fields.", "error");
+        return;
+      }
+
       const fullName = $("#full-name", settingsPageForm)?.value?.trim() || "";
       const businessName = $("#business-name", settingsPageForm)?.value?.trim() || "";
       const email = $("#email", settingsPageForm)?.value?.trim() || "";
+      const newPassword = $("#new-password", settingsPageForm)?.value?.trim() || "";
 
       const existingUser = getCurrentUser() || {};
       const updatedUser = {
@@ -408,6 +626,10 @@ document.addEventListener("DOMContentLoaded", () => {
         businessName,
         email,
       };
+
+      if (newPassword) {
+        updatedUser.password = newPassword;
+      }
 
       setCurrentUser(updatedUser);
 

@@ -1,6 +1,8 @@
 import { supabase } from "./supabase.js";
+import { attachLogoutHandlers, requireRole } from "./auth.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
+  attachLogoutHandlers();
   const productGrid = document.getElementById("product-grid");
   const addProductForm = document.getElementById("add-product-form");
   const addProductTitle = document.getElementById("add-product-title");
@@ -68,15 +70,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     openAddProductModalBtn.disabled = !isEnabled;
   }
 
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
+  const session = await requireRole("seller");
+  if (!session) return;
 
-  if (userError || !user) {
-    window.location.href = "login.html";
-    return;
-  }
+  const user = session.user;
 
   async function fetchSellerBusiness(userId) {
     const { data, error } = await supabase

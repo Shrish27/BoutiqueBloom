@@ -1,17 +1,8 @@
 import { supabase } from "./supabase.js";
+import { attachLogoutHandlers, requireRole } from "./auth.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const customerDefaults = {
-    fullName: "Aarohi Mehta",
-    email: "aarohi.mehta@example.com",
-    phone: "+91 98765 12098",
-    profileImage: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=500&q=80",
-    address: "204, Rosewood Heights, Linking Road",
-    city: "Mumbai",
-    state: "Maharashtra",
-    pincode: "400050",
-    preferences: "Soft florals, handmade accessories, linen dresses, and gift-ready home decor under ₹2500.",
-  };
+  attachLogoutHandlers();
 
   function fillForm(form, data) {
     Object.entries(data).forEach(([key, value]) => {
@@ -70,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } = await supabase.auth.getUser();
 
     if (error || !user) {
-      throw new Error("Please log in before editing your seller profile.");
+      throw new Error("Please log in before editing your profile.");
     }
 
     return user;
@@ -195,7 +186,10 @@ document.addEventListener("DOMContentLoaded", () => {
     showStatus(status, "Loading your seller profile...", "success", false);
 
     try {
-      user = await getCurrentUser();
+      const session = await requireRole("seller");
+      if (!session) return;
+
+      user = session.user;
       const [profile, business] = await Promise.all([
         fetchSellerProfile(user.id),
         fetchSellerBusiness(user.id),
@@ -203,7 +197,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       businessId = business?.id || null;
       fillSellerForm(form, profile, business);
-      window.BoutiqueBloomRole?.setRole("seller");
 
       if (!business) {
         showStatus(
@@ -251,30 +244,112 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function readStoredProfile(key, defaults) {
-    try {
-      return { ...defaults, ...(JSON.parse(localStorage.getItem(key)) || {}) };
-    } catch {
-      return { ...defaults };
+  async function fetchCustomerProfile(userId) {
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("id, full_name, email, phone, role")
+      .eq("id", userId)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Customer profile fetch failed:", error);
+      throw new Error("We could not load your customer profile.");
+    }
+
+    if (!data) {
+      throw new Error("No profile was found for this customer account.");
+    }
+
+    if (data.role !== "customer") {
+      throw new Error("This page is only available for customer accounts.");
+    }
+
+    return data;
+  }
+
+  function fillCustomerForm(form, profile) {
+    fillForm(form, {
+      fullName: profile.full_name,
+      email: profile.email,
+      phone: profile.phone,
+      profileImage: "",
+      address: "",
+      city: "",
+      state: "",
+      pincode: "",
+      preferences: "",
+    });
+  }
+
+  async function saveCustomerProfile(userId, formData) {
+    const { error } = await supabase
+      .from("profiles")
+      .update({
+        full_name: formData.fullName,
+        email: formData.email,
+        phone: formData.phone,
+        role: "customer",
+      })
+      .eq("id", userId);
+
+    if (error) {
+      console.error("Customer profile update failed:", error);
+      throw new Error("We could not save your customer profile.");
     }
   }
 
-  function setupCustomerProfileForm() {
+  async function setupCustomerProfileForm() {
     const form = document.getElementById("customer-profile-form");
     if (!form) return;
 
-    const profile = readStoredProfile("boutiquebloomCustomerProfile", customerDefaults);
     const status = document.getElementById("customer-profile-status");
+    let user = null;
 
-    fillForm(form, profile);
     setImagePreview(document.getElementById("customer-profile-image"), document.getElementById("customer-profile-preview"));
+    setFormLoading(form, true, "Save Changes");
+    showStatus(status, "Loading your customer profile...", "success", false);
 
-    form.addEventListener("submit", (event) => {
+    try {
+      const session = await requireRole("customer");
+      if (!session) return;
+
+      user = session.user;
+      const profile = await fetchCustomerProfile(user.id);
+      fillCustomerForm(form, profile);
+      status.hidden = true;
+    } catch (error) {
+      console.error("Customer profile setup failed:", error);
+      showStatus(status, error.message || "We could not load your customer profile.", "error", false);
+      form.dataset.loadFailed = "true";
+    } finally {
+      setFormLoading(form, false, "Save Changes");
+    }
+
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      const updatedProfile = collectFormData(form);
 
-      localStorage.setItem("boutiquebloomCustomerProfile", JSON.stringify(updatedProfile));
-      showStatus(status, "Changes saved successfully.");
+      if (form.dataset.loadFailed === "true" || !user?.id) {
+        showStatus(status, "Please log in with a valid customer account before saving.", "error", false);
+        return;
+      }
+
+      if (!form.reportValidity()) {
+        showStatus(status, "Please complete the required customer profile fields.", "error", false);
+        return;
+      }
+
+      const updatedProfile = collectFormData(form);
+      setFormLoading(form, true, "Save Changes");
+
+      try {
+        await saveCustomerProfile(user.id, updatedProfile);
+        showStatus(status, "Customer profile saved successfully.", "success");
+      } catch (error) {
+        console.error("Customer profile save failed:", error);
+        showStatus(status, error.message || "We could not save your customer profile.", "error", false);
+      } finally {
+        setFormLoading(form, false, "Save Changes");
+      }
     });
   }
 

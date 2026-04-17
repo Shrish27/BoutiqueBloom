@@ -122,7 +122,8 @@ form.addEventListener("submit", async (event) => {
       return;
     }
 
-    window.BoutiqueBloomRole?.setRole(values.role);
+    localStorage.removeItem("boutiquebloomCurrentUser");
+    localStorage.removeItem("boutiquebloomRole");
     setMessage("Account created successfully. Redirecting to login...", "success");
     form.reset();
 

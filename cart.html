@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BoutiqueBloom | Cart</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" type="image/png" sizes="64x64" href="images/favicon.png?v=2">
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png?v=2">
+  </head>
+  <body class="marketplace-page cart-page">
+    <div id="page-loader">
+      <div class="loader-spinner"></div>
+    </div>
+
+    <header class="navbar" aria-label="Customer navigation">
+      <div class="navbar-inner container">
+        <a href="index.html" class="brand">BoutiqueBloom</a>
+        <nav aria-label="Customer links">
+          <ul class="nav-links">
+            <li><a href="marketplace.html">Marketplace</a></li>
+            <li><a href="cart.html" aria-current="page">Cart</a></li>
+            <li><a href="customer-profile.html">My Profile</a></li>
+          </ul>
+        </nav>
+        <div class="profile-menu" aria-label="Customer controls">
+          <a class="btn btn-accent" href="login.html" data-logout>Logout</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container cart-shell">
+      <header class="profile-header">
+        <div>
+          <p class="hero-badge">Customer Cart</p>
+          <h1>Your Cart</h1>
+          <p>Review products from independent boutiques before checkout.</p>
+        </div>
+        <a class="btn btn-primary" href="marketplace.html">Continue Shopping</a>
+      </header>
+
+      <p id="cart-status" class="form-status" hidden aria-live="polite"></p>
+
+      <section class="cart-layout" aria-label="Cart details">
+        <section id="cart-list" class="cart-list" aria-live="polite">
+          <p>Loading your cart...</p>
+        </section>
+
+        <aside class="cart-summary card" aria-label="Cart summary">
+          <h2>Summary</h2>
+          <div class="cart-summary-row">
+            <span>Items</span>
+            <strong id="cart-count">0 items</strong>
+          </div>
+          <div class="cart-summary-row">
+            <span>Total</span>
+            <strong id="cart-total">₹0</strong>
+          </div>
+          <button id="checkout-button" class="btn btn-accent" type="button" disabled>Checkout</button>
+        </aside>
+      </section>
+
+      <section id="cart-empty" class="empty-state card" hidden>
+        <h2>Your cart is empty.</h2>
+        <p>Browse the marketplace and add boutique products you love.</p>
+        <a class="btn btn-accent" href="marketplace.html">Browse Marketplace</a>
+      </section>
+    </main>
+
+    <script src="js/script.js"></script>
+    <script type="module" src="js/auth-guard.js"></script>
+    <script type="module" src="js/cart.js"></script>
+  </body>
+</html>

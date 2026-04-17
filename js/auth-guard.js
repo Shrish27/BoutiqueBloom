@@ -1,23 +1,38 @@
-import { supabase } from "./supabase.js";
+import { attachLogoutHandlers, requireRole } from "./auth.js";
+
+const SELLER_PAGES = new Set([
+  "dashboard.html",
+  "campaigns.html",
+  "planner.html",
+  "catalogue.html",
+  "settings.html",
+  "seller-profile.html",
+  "coming-soon.html",
+]);
+
+const CUSTOMER_PAGES = new Set([
+  "marketplace.html",
+  "cart.html",
+  "customer-profile.html",
+]);
+
+function getCurrentPage() {
+  return window.location.pathname.split("/").pop() || "index.html";
+}
 
 async function protectPage() {
-  const localUser = localStorage.getItem("boutiquebloomCurrentUser");
+  attachLogoutHandlers();
 
-  if (localUser) {
+  const page = getCurrentPage();
+
+  if (CUSTOMER_PAGES.has(page)) {
+    await requireRole("customer");
     return;
   }
 
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-
-  if (error || !user) {
-    window.location.href = "login.html";
-    return;
+  if (SELLER_PAGES.has(page)) {
+    await requireRole("seller");
   }
-
-  console.log("Logged in user:", user);
 }
 
 protectPage();

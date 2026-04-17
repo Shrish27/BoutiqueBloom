@@ -1,36 +1,18 @@
-import { supabase } from "./supabase.js";
+import { attachLogoutHandlers, requireRole } from "./auth.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
+  attachLogoutHandlers();
   const welcomeText = document.getElementById("welcome-user");
 
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-
-  if (error || !user) {
-    window.location.href = "login.html";
-    return;
-  }
-
-  console.log("Current user:", user);
+  const session = await requireRole("seller");
+  if (!session) return;
 
   if (welcomeText) {
-    const { data: profile, error: profileError } = await supabase
-  .from("profiles")
-  .select("full_name")
-  .eq("id", user.id)
-  .single();
+    const displayName =
+      session.profile.full_name ||
+      session.profile.email?.split("@")[0] ||
+      "Seller";
 
-let displayName = "User";
-
-if (!profileError && profile) {
-  displayName = profile.full_name;
-} else {
-  displayName = user.email.split("@")[0]; // fallback
-}
-
-welcomeText.textContent = `Welcome Back, ${displayName}`;
+    welcomeText.textContent = `Welcome Back, ${displayName}`;
   }
-  console.log("User ID:", user.id);
 });

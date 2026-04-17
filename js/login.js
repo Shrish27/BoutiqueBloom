@@ -1,4 +1,5 @@
 import { supabase } from "./supabase.js";
+import { getRoleHome } from "./auth.js";
 
 const VALID_ROLES = ["seller", "customer"];
 
@@ -16,14 +17,6 @@ function showError(message) {
 function clearError() {
   errorMsg.textContent = "";
   errorMsg.hidden = true;
-}
-
-function getDashboardRoute(role) {
-  if (window.BoutiqueBloomRole) {
-    return window.BoutiqueBloomRole.getDashboardRoute(role);
-  }
-
-  return role === "customer" ? "marketplace.html" : "dashboard.html";
 }
 
 async function getProfileRole(userId) {
@@ -84,8 +77,9 @@ form.addEventListener("submit", async (e) => {
 
     const role = await getProfileRole(data.user.id);
 
-    window.BoutiqueBloomRole?.setRole(role);
-    window.location.href = getDashboardRoute(role);
+    localStorage.removeItem("boutiquebloomCurrentUser");
+    localStorage.removeItem("boutiquebloomRole");
+    window.location.href = getRoleHome(role);
   } catch (err) {
     console.error("Unexpected login error:", err);
     showError(err.message || "Something went wrong while signing in.");

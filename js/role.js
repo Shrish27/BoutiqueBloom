@@ -1,16 +1,16 @@
 (function () {
-  const ROLE_KEY = "boutiquebloomRole";
   const VALID_ROLES = ["seller", "customer"];
 
+  function normalizeRole(role) {
+    return VALID_ROLES.includes(role) ? role : "seller";
+  }
+
   function getRole() {
-    const storedRole = localStorage.getItem(ROLE_KEY);
-    return VALID_ROLES.includes(storedRole) ? storedRole : "seller";
+    return "seller";
   }
 
   function setRole(role) {
-    const nextRole = VALID_ROLES.includes(role) ? role : "seller";
-    localStorage.setItem(ROLE_KEY, nextRole);
-    return nextRole;
+    return normalizeRole(role);
   }
 
   function getDashboardRoute(role = getRole()) {
@@ -27,7 +27,7 @@
     parent.querySelectorAll("[data-role-control]").forEach((control) => {
       control.value = role;
       control.addEventListener("change", () => {
-        const nextRole = setRole(control.value);
+        const nextRole = normalizeRole(control.value);
 
         parent.querySelectorAll("[data-role-route]").forEach((link) => {
           const routeType = link.getAttribute("data-role-route");

@@ -19,16 +19,12 @@
         <nav aria-label="Customer links">
           <ul class="nav-links">
             <li><a href="marketplace.html">Marketplace</a></li>
+            <li><a href="cart.html">Cart</a></li>
             <li><a href="customer-profile.html">My Profile</a></li>
-            <li><a href="dashboard.html">Seller Dashboard</a></li>
           </ul>
         </nav>
         <div class="profile-menu" aria-label="Customer controls">
-          <select class="role-switcher" data-role-control aria-label="Choose role">
-            <option value="customer">Customer</option>
-            <option value="seller">Seller</option>
-          </select>
-          <a class="btn btn-accent" href="login.html">Logout</a>
+          <a class="btn btn-accent" href="login.html" data-logout>Logout</a>
         </div>
       </div>
     </header>
@@ -42,24 +38,6 @@
         </div>
         <img id="customer-profile-preview" class="profile-preview" src="" alt="Customer profile preview" />
       </header>
-
-      <section class="stats-grid profile-summary-grid" aria-label="Customer summary">
-        <article class="card stat-card">
-          <h2>Saved Items</h2>
-          <p class="stat-value">12</p>
-          <p class="stat-meta">Across 5 boutiques</p>
-        </article>
-        <article class="card stat-card">
-          <h2>Recent Orders</h2>
-          <p class="stat-value">3</p>
-          <p class="stat-meta">One ready for pickup</p>
-        </article>
-        <article class="card stat-card">
-          <h2>Recently Viewed</h2>
-          <p class="stat-value">18</p>
-          <p class="stat-meta">Fresh picks this week</p>
-        </article>
-      </section>
 
       <form id="customer-profile-form" class="profile-form" action="#" method="post">
         <p id="customer-profile-status" class="form-status" hidden aria-live="polite"></p>
@@ -120,8 +98,8 @@
       </form>
     </main>
 
-    <script src="js/role.js"></script>
     <script src="js/script.js"></script>
+    <script type="module" src="js/auth-guard.js"></script>
     <script type="module" src="js/profile.js"></script>
   </body>
 </html>

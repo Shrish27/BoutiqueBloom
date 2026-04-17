@@ -18,10 +18,9 @@
         <a href="index.html" class="brand" aria-label="BoutiqueBloom home">BoutiqueBloom</a>
         <nav aria-label="Top utility links">
           <ul class="profile-menu">
-            <li><a href="marketplace.html">Marketplace</a></li>
             <li><a href="dashboard.html">Dashboard</a></li>
             <li><a href="seller-profile.html" class="avatar-placeholder" aria-label="Seller profile">S</a></li>
-            <li><a class="btn btn-accent" href="login.html">Logout</a></li>
+            <li><a class="btn btn-accent" href="login.html" data-logout>Logout</a></li>
           </ul>
         </nav>
       </div>
@@ -129,8 +128,8 @@
       </main>
     </div>
 
-    <script src="js/role.js"></script>
     <script src="js/script.js"></script>
+    <script type="module" src="js/auth-guard.js"></script>
     <script type="module" src="js/profile.js"></script>
   </body>
 </html>

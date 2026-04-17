@@ -19,16 +19,12 @@
         <nav aria-label="Marketplace navigation">
           <ul class="nav-links">
             <li><a href="marketplace.html">Marketplace</a></li>
+            <li><a href="cart.html">Cart</a></li>
             <li><a href="customer-profile.html">My Profile</a></li>
-            <li><a href="seller-profile.html">Seller View</a></li>
           </ul>
         </nav>
         <div class="profile-menu" aria-label="Customer controls">
-          <select class="role-switcher" data-role-control aria-label="Choose role">
-            <option value="customer">Customer</option>
-            <option value="seller">Seller</option>
-          </select>
-          <a class="btn btn-accent" href="login.html">Logout</a>
+          <a class="btn btn-accent" href="login.html" data-logout>Logout</a>
         </div>
       </div>
     </header>
@@ -122,7 +118,10 @@
             <dd id="customer-modal-stock">In stock</dd>
           </div>
         </dl>
-        <button class="btn btn-accent" type="button">Save Item</button>
+        <div class="product-card-actions">
+          <button id="customer-modal-add-cart" class="btn btn-accent" type="button">Add to Cart</button>
+          <button id="customer-modal-buy-now" class="btn" type="button">Buy Now</button>
+        </div>
       </article>
     </div>
 
@@ -130,8 +129,8 @@
       <span class="back-to-top-icon" aria-hidden="true">&uarr;</span>
     </button>
 
-    <script src="js/role.js"></script>
     <script src="js/script.js"></script>
+    <script type="module" src="js/auth-guard.js"></script>
     <script type="module" src="js/marketplace.js"></script>
   </body>
 </html>

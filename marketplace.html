@@ -41,60 +41,23 @@
           </div>
           <div class="marketplace-hero-card" aria-label="Marketplace summary">
             <span>Featured today</span>
-            <strong>18 boutique picks</strong>
+            <strong> boutique picks</strong>
             <p>Fresh arrivals, limited stock edits, and local favorites gathered for easy browsing.</p>
           </div>
         </div>
       </section>
 
       <section class="container marketplace-main" aria-label="Customer marketplace">
-        <section class="marketplace-toolbar" aria-label="Search and filter products">
+        <section class="marketplace-toolbar" aria-label="Search products">
           <label class="marketplace-search" for="marketplace-search">
             <span>Search</span>
             <input id="marketplace-search" type="search" placeholder="Search products, boutiques, or categories" />
-          </label>
-
-          <label for="marketplace-category">
-            <span>Category</span>
-            <select id="marketplace-category">
-              <option value="all">All Categories</option>
-              <option value="Apparel">Apparel</option>
-              <option value="Accessories">Accessories</option>
-              <option value="Florals">Florals</option>
-              <option value="Home Decor">Home Decor</option>
-              <option value="Gifts">Gifts</option>
-            </select>
-          </label>
-
-          <label for="marketplace-stock">
-            <span>Availability</span>
-            <select id="marketplace-stock">
-              <option value="all">All Stock</option>
-              <option value="in-stock">In Stock</option>
-              <option value="low-stock">Low Stock</option>
-            </select>
-          </label>
-
-          <label for="marketplace-sort">
-            <span>Sort by</span>
-            <select id="marketplace-sort">
-              <option value="featured">Featured</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-              <option value="newest">Newest</option>
-            </select>
           </label>
         </section>
 
         <section id="marketplace-grid" class="product-grid" aria-live="polite" aria-label="Boutique products"></section>
 
-        <section id="marketplace-empty" class="empty-state card" hidden>
-          <h2>No boutique finds match that search.</h2>
-          <p>Try a softer search term, clear the filters, or browse all categories again.</p>
-          <button id="clear-marketplace-filters" class="btn btn-accent" type="button">Clear Filters</button>
-        </section>
-      </section>
-    </main>
+        
 
     <div id="customer-product-modal" class="product-modal hidden" aria-hidden="true">
       <div class="product-modal-backdrop" data-close-product-modal></div>

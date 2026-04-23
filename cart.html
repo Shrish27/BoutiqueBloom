@@ -67,6 +67,28 @@
       </section>
     </main>
 
+    <div id="checkout-modal" class="product-modal checkout-modal hidden" aria-hidden="true">
+      <div class="product-modal-backdrop" data-close-checkout-modal></div>
+      <article class="product-modal-content checkout-modal-content card" role="dialog" aria-modal="true" aria-labelledby="checkout-modal-title">
+        <button class="close-modal-btn" type="button" aria-label="Close checkout summary" data-close-checkout-modal>&times;</button>
+        <p class="package-tag">Order Bill</p>
+        <h2 id="checkout-modal-title">Checkout Summary</h2>
+        <div id="checkout-summary" class="checkout-summary-list" aria-label="Order items"></div>
+        <div class="checkout-total-row">
+          <span>Subtotal</span>
+          <strong id="checkout-subtotal">₹0</strong>
+        </div>
+        <div class="checkout-total-row checkout-grand-total">
+          <span>Grand Total</span>
+          <strong id="checkout-grand-total">₹0</strong>
+        </div>
+        <div class="product-card-actions checkout-modal-actions">
+          <button class="btn" type="button" data-close-checkout-modal>Close</button>
+          <button id="place-order-button" class="btn btn-accent" type="button">Confirm & Place Order</button>
+        </div>
+      </article>
+    </div>
+
     <script src="js/script.js"></script>
     <script type="module" src="js/auth-guard.js"></script>
     <script type="module" src="js/cart.js"></script>

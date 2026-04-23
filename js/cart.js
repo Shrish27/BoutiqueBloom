@@ -1,7 +1,13 @@
 import { supabase } from "./supabase.js";
 import { attachLogoutHandlers, requireRole } from "./auth.js";
 
+const DEBUG_PREFIX = "[Cart Debug]";
+
+console.log(`${DEBUG_PREFIX} cart.js loaded`);
+
 document.addEventListener("DOMContentLoaded", async () => {
+  console.log(`${DEBUG_PREFIX} DOMContentLoaded fired`);
+
   attachLogoutHandlers();
 
   const session = await requireRole("customer");
@@ -14,6 +20,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   const cartCount = document.getElementById("cart-count");
   const cartTotal = document.getElementById("cart-total");
   const checkoutButton = document.getElementById("checkout-button");
+  const checkoutModal = document.getElementById("checkout-modal");
+  const checkoutSummary = document.getElementById("checkout-summary");
+  const checkoutSubtotal = document.getElementById("checkout-subtotal");
+  const checkoutGrandTotal = document.getElementById("checkout-grand-total");
+  const placeOrderButton = document.getElementById("place-order-button");
 
   const formatter = new Intl.NumberFormat("en-IN", {
     style: "currency",
@@ -37,6 +48,35 @@ document.addEventListener("DOMContentLoaded", async () => {
     return item.product || item.products || item.products?.[0] || null;
   }
 
+  function getValidItems() {
+    return cartItems.filter((item) => getProduct(item));
+  }
+
+  function getCartSummary() {
+    const items = getValidItems().map((item) => {
+      const product = getProduct(item);
+      const quantity = Number(item.quantity || 0);
+      const unitPrice = Number(product.price || 0);
+
+      return {
+        cartId: item.id,
+        productId: product.id,
+        name: product.name || "Untitled Product",
+        quantity,
+        unitPrice,
+        lineTotal: unitPrice * quantity,
+      };
+    });
+
+    const subtotal = items.reduce((sum, item) => sum + item.lineTotal, 0);
+
+    return {
+      items,
+      subtotal,
+      grandTotal: subtotal,
+    };
+  }
+
   function showStatus(message, type = "success", autoHide = true) {
     if (!cartStatus) return;
 
@@ -54,6 +94,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   async function loadCartItems() {
+    console.log(`${DEBUG_PREFIX} loading cart items for customer:`, customerId);
+
     const { data, error } = await supabase
       .from("cart_items")
       .select(
@@ -71,7 +113,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             stock,
             image_url,
             description,
-            business:businesses (
+            business:businesses!products_business_id_fkey (
               id,
               name
             )
@@ -87,14 +129,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     cartItems = data || [];
+    console.log(`${DEBUG_PREFIX} current cart contents:`, cartItems);
   }
 
   function renderCart() {
-    const validItems = cartItems.filter((item) => getProduct(item));
-    const total = validItems.reduce((sum, item) => {
-      const product = getProduct(item);
-      return sum + Number(product.price || 0) * Number(item.quantity || 0);
-    }, 0);
+    const validItems = getValidItems();
+    const summary = getCartSummary();
 
     if (cartCount) {
       const quantity = validItems.reduce((sum, item) => sum + Number(item.quantity || 0), 0);
@@ -102,7 +142,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     if (cartTotal) {
-      cartTotal.textContent = formatter.format(total);
+      cartTotal.textContent = formatter.format(summary.grandTotal);
     }
 
     if (checkoutButton) {
@@ -143,7 +183,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <span>Qty</span>
                 <input class="cart-quantity-input" type="number" min="1" max="${stock || 1}" value="${quantity}" data-cart-id="${escapeHtml(item.id)}" ${stock <= 0 ? "disabled" : ""} />
               </label>
-              <span class="cart-subtotal">${formatter.format(subtotal)}</span>
+              <span class="cart-subtotal">Line total: ${formatter.format(subtotal)}</span>
               <button class="btn btn-outline remove-cart-item" type="button" data-cart-id="${escapeHtml(item.id)}">Remove</button>
             </div>
           </article>
@@ -162,6 +202,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   async function updateQuantity(cartId, quantity) {
+    console.log(`${DEBUG_PREFIX} quantity update requested:`, {
+      cartId,
+      quantity,
+    });
+
     const item = cartItems.find((cartItem) => String(cartItem.id) === String(cartId));
     const product = item ? getProduct(item) : null;
 
@@ -185,6 +230,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   async function removeCartItem(cartId) {
+    console.log(`${DEBUG_PREFIX} remove requested:`, { cartId });
+
     const { error } = await supabase
       .from("cart_items")
       .delete()
@@ -197,6 +244,67 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
+  async function clearCart() {
+    const { error } = await supabase
+      .from("cart_items")
+      .delete()
+      .eq("customer_id", customerId);
+
+    if (error) {
+      console.error("Cart clear failed:", error);
+      throw new Error("We could not place your order right now.");
+    }
+  }
+
+  function renderCheckoutSummary() {
+    const summary = getCartSummary();
+
+    console.log(`${DEBUG_PREFIX} order summary data built:`, summary);
+
+    if (checkoutSummary) {
+      checkoutSummary.innerHTML = summary.items
+        .map(
+          (item) => `
+            <div class="checkout-summary-item">
+              <div>
+                <strong>${escapeHtml(item.name)}</strong>
+                <span>Qty ${item.quantity} x ${formatter.format(item.unitPrice)}</span>
+              </div>
+              <strong>${formatter.format(item.lineTotal)}</strong>
+            </div>
+          `
+        )
+        .join("");
+    }
+
+    if (checkoutSubtotal) {
+      checkoutSubtotal.textContent = formatter.format(summary.subtotal);
+    }
+
+    if (checkoutGrandTotal) {
+      checkoutGrandTotal.textContent = formatter.format(summary.grandTotal);
+    }
+
+    return summary;
+  }
+
+  function openCheckoutModal() {
+    const summary = renderCheckoutSummary();
+
+    if (!summary.items.length) {
+      showStatus("Your cart is empty.", "error");
+      return;
+    }
+
+    checkoutModal?.classList.remove("hidden");
+    checkoutModal?.setAttribute("aria-hidden", "false");
+  }
+
+  function closeCheckoutModal() {
+    checkoutModal?.classList.add("hidden");
+    checkoutModal?.setAttribute("aria-hidden", "true");
+  }
+
   cartList?.addEventListener("change", async (event) => {
     const input = event.target.closest(".cart-quantity-input");
     if (!input) return;
@@ -206,6 +314,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       await updateQuantity(input.dataset.cartId, input.value);
       await refreshCart();
+      console.log(`${DEBUG_PREFIX} current cart contents after update:`, cartItems);
       showStatus("Cart updated.");
     } catch (error) {
       showStatus(error.message || "Could not update cart.", "error", false);
@@ -222,6 +331,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
       await removeCartItem(button.dataset.cartId);
       await refreshCart();
+      console.log(`${DEBUG_PREFIX} current cart contents after remove:`, cartItems);
       showStatus("Item removed.");
     } catch (error) {
       showStatus(error.message || "Could not remove item.", "error", false);
@@ -230,7 +340,40 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   checkoutButton?.addEventListener("click", () => {
-    showStatus("Checkout is ready for the next payment integration step.", "success");
+    console.log(`${DEBUG_PREFIX} checkout click firing`);
+    openCheckoutModal();
+  });
+
+  checkoutModal?.addEventListener("click", (event) => {
+    if (event.target.closest("[data-close-checkout-modal]")) {
+      closeCheckoutModal();
+    }
+  });
+
+  placeOrderButton?.addEventListener("click", async () => {
+    console.log(`${DEBUG_PREFIX} place order click firing`);
+
+    placeOrderButton.disabled = true;
+    placeOrderButton.textContent = "Placing...";
+
+    try {
+      await clearCart();
+      closeCheckoutModal();
+      await refreshCart();
+      console.log(`${DEBUG_PREFIX} current cart contents after order placement:`, cartItems);
+      showStatus("Order placed successfully. Your cart is now clear.", "success", false);
+    } catch (error) {
+      showStatus(error.message || "Could not place order.", "error", false);
+    } finally {
+      placeOrderButton.disabled = false;
+      placeOrderButton.textContent = "Confirm & Place Order";
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeCheckoutModal();
+    }
   });
 
   try {

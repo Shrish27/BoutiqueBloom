@@ -1,7 +1,12 @@
 import { supabase } from "./supabase.js";
 import { attachLogoutHandlers, requireRole } from "./auth.js";
 
+const DEBUG_PREFIX = "[Marketplace Debug]";
+
+console.log(`${DEBUG_PREFIX} marketplace.js loaded`);
+
 document.addEventListener("DOMContentLoaded", async () => {
+  console.log(`${DEBUG_PREFIX} DOMContentLoaded fired`);
   attachLogoutHandlers();
   const session = await requireRole("customer");
   if (!session) return;
@@ -12,11 +17,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   const emptyState = document.getElementById("marketplace-empty");
   const clearButton = document.getElementById("clear-marketplace-filters");
   const searchInput = document.getElementById("marketplace-search");
-  const categoryFilter = document.getElementById("marketplace-category");
-  const stockFilter = document.getElementById("marketplace-stock");
-  const sortSelect = document.getElementById("marketplace-sort");
   const modal = document.getElementById("customer-product-modal");
   const featuredCount = document.querySelector(".marketplace-hero-card strong");
+
+  console.log(`${DEBUG_PREFIX} target DOM container exists:`, Boolean(grid), grid);
+  if (!grid) {
+    console.error(`${DEBUG_PREFIX} missing marketplace target container: #marketplace-grid`);
+  }
 
   const formatter = new Intl.NumberFormat("en-IN", {
     style: "currency",
@@ -43,6 +50,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     return product.business || product.businesses || product.businesses?.[0] || null;
   }
 
+  function resolveProductImage(product) {
+    const imageUrl = typeof product.image_url === "string" ? product.image_url.trim() : product.image_url;
+    const image = imageUrl || fallbackImage;
+
+    console.log(`${DEBUG_PREFIX} product image_url resolved:`, {
+      productId: product.id,
+      imageUrl: product.image_url,
+      renderedImage: image,
+      usedFallback: !imageUrl,
+    });
+
+    return image;
+  }
+
   function toMarketplaceProduct(product) {
     const business = getBusiness(product);
 
@@ -57,7 +78,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       category: product.category || "General",
       stock: Number(product.stock || 0),
       createdAt: product.created_at || "",
-      image: product.image_url || fallbackImage,
+      image: resolveProductImage(product),
     };
   }
 
@@ -111,6 +132,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   async function fetchProducts() {
+    console.log(`${DEBUG_PREFIX} fetching products from Supabase`);
+
     const { data, error } = await supabase
       .from("products")
       .select(
@@ -124,7 +147,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           image_url,
           description,
           created_at,
-          business:businesses (
+          business:businesses!products_business_id_fkey (
             id,
             name,
             category,
@@ -133,6 +156,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         `
       )
       .order("created_at", { ascending: false });
+
+    console.log(`${DEBUG_PREFIX} query returned rows:`, data?.length || 0, {
+      error,
+      sample: data?.slice?.(0, 3) || [],
+    });
 
     if (error) {
       console.error("Marketplace product fetch failed:", error);
@@ -144,29 +172,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function getFilteredProducts() {
     const query = normalize(searchInput?.value);
-    const category = categoryFilter?.value || "all";
-    const stock = stockFilter?.value || "all";
-    const sort = sortSelect?.value || "featured";
 
     const filtered = products.filter((product) => {
       const content = normalize(`${product.name} ${product.description} ${product.boutiqueName} ${product.category}`);
       const matchesSearch = !query || content.includes(query);
-      const matchesCategory = category === "all" || product.category === category;
-      const matchesStock =
-        stock === "all" ||
-        (stock === "in-stock" && product.stock > 0) ||
-        (stock === "low-stock" && product.stock > 0 && product.stock <= 5);
 
-      return matchesSearch && matchesCategory && matchesStock;
+      return matchesSearch;
     });
 
-    if (sort === "price-low") {
-      filtered.sort((a, b) => a.price - b.price);
-    } else if (sort === "price-high") {
-      filtered.sort((a, b) => b.price - a.price);
-    } else if (sort === "newest" || sort === "featured") {
-      filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    }
+    console.log(`${DEBUG_PREFIX} products filtered before render:`, {
+      totalProducts: products.length,
+      filteredProducts: filtered.length,
+      filteredOut: products.length - filtered.length,
+      query,
+    });
 
     return filtered;
   }
@@ -174,35 +193,75 @@ document.addEventListener("DOMContentLoaded", async () => {
   function renderProducts() {
     const filtered = getFilteredProducts();
 
+    console.log(`${DEBUG_PREFIX} renderProducts called:`, {
+      gridExists: Boolean(grid),
+      totalProducts: products.length,
+      filteredProducts: filtered.length,
+    });
+
     if (!grid) return;
 
+    console.log(`${DEBUG_PREFIX} products rendered:`, filtered.length);
+
     grid.innerHTML = filtered
-      .map((product) => `
-        <article class="product-card card">
-          <img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" />
-          <div class="product-card-body">
-            <p class="package-tag">${escapeHtml(product.category)}</p>
-            <h2>${escapeHtml(product.name)}</h2>
-            <p class="seller-name">By ${escapeHtml(product.boutiqueName)}</p>
-            <p>${escapeHtml(product.description)}</p>
-            <div class="product-card-footer">
-              <strong>${formatter.format(product.price)}</strong>
-              <span>${escapeHtml(getStockLabel(product.stock))}</span>
+      .map((product) => {
+        console.log(`${DEBUG_PREFIX} card render structure verified:`, {
+          productId: product.id,
+          structure: [
+            "marketplace-card",
+            "marketplace-card__media",
+            "marketplace-card__image",
+            "marketplace-card__body",
+            "marketplace-card__meta",
+            "marketplace-card__title",
+            "marketplace-card__seller",
+            "marketplace-card__description",
+            "marketplace-card__spacer",
+            "marketplace-card__footer",
+            "marketplace-card__actions",
+          ],
+        });
+
+        return `
+          <article class="marketplace-card card">
+            <div class="marketplace-card__media">
+              <img
+                class="marketplace-card__image"
+                src="${escapeHtml(product.image)}"
+                alt="${escapeHtml(product.name)}"
+                data-product-id="${escapeHtml(product.id)}"
+                data-original-image="${escapeHtml(product.image)}"
+              />
             </div>
-            <div class="product-card-actions">
-              <button class="btn btn-primary view-customer-product" type="button" data-product-id="${escapeHtml(product.id)}">
-                View Details
-              </button>
-              <button class="btn btn-accent add-cart-product" type="button" data-product-id="${escapeHtml(product.id)}" ${product.stock <= 0 ? "disabled" : ""}>
-                Add to Cart
-              </button>
-              <button class="btn buy-now-product" type="button" data-product-id="${escapeHtml(product.id)}" ${product.stock <= 0 ? "disabled" : ""}>
-                Buy Now
-              </button>
+            <div class="marketplace-card__body">
+              <div class="marketplace-card__meta">
+                <p class="package-tag marketplace-card__category">${escapeHtml(product.category)}</p>
+              </div>
+              <h3 class="marketplace-card__title">${escapeHtml(product.name)}</h3>
+              <p class="marketplace-card__seller">By ${escapeHtml(product.boutiqueName)}</p>
+              <p class="marketplace-card__description">${escapeHtml(product.description)}</p>
+              <div class="marketplace-card__spacer spacer" aria-hidden="true"></div>
+              <div class="marketplace-card__footer">
+                <div class="marketplace-card__price">
+                  <strong>${formatter.format(product.price)}</strong>
+                  <span>${escapeHtml(getStockLabel(product.stock))}</span>
+                </div>
+                <div class="marketplace-card__actions">
+                  <button class="btn btn-primary view-customer-product" type="button" data-product-id="${escapeHtml(product.id)}">
+                    View Details
+                  </button>
+                  <button class="btn btn-accent add-cart-product" type="button" data-product-id="${escapeHtml(product.id)}" ${product.stock <= 0 ? "disabled" : ""}>
+                    Add to Cart
+                  </button>
+                  <button class="btn buy-now-product" type="button" data-product-id="${escapeHtml(product.id)}" ${product.stock <= 0 ? "disabled" : ""}>
+                    Buy Now
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        </article>
-      `)
+          </article>
+        `;
+      })
       .join("");
 
     if (filtered.length > 0) {
@@ -226,6 +285,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     const image = document.getElementById("customer-modal-image");
     image.src = product.image;
     image.alt = product.name;
+    image.onerror = () => {
+      console.log(`${DEBUG_PREFIX} modal image failed to load; using fallback:`, {
+        productId: product.id,
+        failedImage: product.image,
+        fallbackImage,
+      });
+      image.onerror = null;
+      image.src = fallbackImage;
+    };
     document.getElementById("customer-modal-category").textContent = product.category;
     document.getElementById("customer-modal-title").textContent = product.name;
     document.getElementById("customer-modal-description").textContent = product.fullDescription;
@@ -248,6 +316,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   async function addToCart(productId, quantity = 1) {
     const product = products.find((item) => String(item.id) === String(productId));
+
+    console.log(`${DEBUG_PREFIX} item data being added:`, {
+      productId,
+      quantity,
+      product,
+    });
 
     if (!product) {
       throw new Error("This product is no longer available.");
@@ -297,7 +371,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
+  async function logCurrentCartContents() {
+    const { data, error } = await supabase
+      .from("cart_items")
+      .select("id, product_id, quantity, created_at")
+      .eq("customer_id", currentCustomerId)
+      .order("created_at", { ascending: false });
+
+    console.log(`${DEBUG_PREFIX} current cart contents after add:`, {
+      error,
+      items: data || [],
+    });
+  }
+
   async function handleCartAction(button, redirectAfterAdd = false) {
+    console.log(`${DEBUG_PREFIX} add-to-cart handler firing:`, {
+      productId: button?.dataset.productId,
+      redirectAfterAdd,
+      button,
+    });
+
     const productId = button?.dataset.productId;
     if (!productId) return;
 
@@ -307,6 +400,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
       await addToCart(productId, 1);
+      await logCurrentCartContents();
 
       if (redirectAfterAdd) {
         window.location.href = "cart.html";
@@ -327,15 +421,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     modal?.setAttribute("aria-hidden", "true");
   }
 
-  [searchInput, categoryFilter, stockFilter, sortSelect].forEach((control) => {
-    control?.addEventListener(control.tagName === "INPUT" ? "input" : "change", renderProducts);
-  });
+  searchInput?.addEventListener("input", renderProducts);
 
   clearButton?.addEventListener("click", () => {
-    searchInput.value = "";
-    categoryFilter.value = "all";
-    stockFilter.value = "all";
-    sortSelect.value = "featured";
+    if (searchInput) searchInput.value = "";
     renderProducts();
   });
 
@@ -359,6 +448,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     const product = products.find((item) => String(item.id) === String(viewButton.dataset.productId));
     openProductModal(product);
   });
+
+  grid?.addEventListener(
+    "error",
+    (event) => {
+      const image = event.target.closest?.(".marketplace-card__image");
+      if (!image || image.dataset.fallbackApplied === "true") return;
+
+      console.log(`${DEBUG_PREFIX} image failed to load; using fallback:`, {
+        productId: image.dataset.productId,
+        failedImage: image.dataset.originalImage,
+        fallbackImage,
+      });
+
+      image.dataset.fallbackApplied = "true";
+      image.src = fallbackImage;
+    },
+    true
+  );
 
   modal?.addEventListener("click", (event) => {
     if (event.target.closest("[data-close-product-modal]")) {
